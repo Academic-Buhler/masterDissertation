@@ -1,0 +1,84 @@
+
+	\textbf{CASO DE TESTE PARA AVALIAÇÃO DE ACEITE DO SOFTWARE BIOMON}
+	\begin{enumerate}
+		\item{\textbf{DESCRIÇÃO}}\\
+ O presente caso de teste descreve os passos necessários para a execução de um cenário de análise de dados de campo em biomonitoramento fazendo uso do protótipo Biomon com o objetivo de realizar sua avaliação.
+		
+		\item{\textbf{PREPARAÇÃO}}\\
+	\underline{Dados de Campo}\\
+	Os dados de campo devem estar organizados em planilhas eletrônicas onde: 
+	\begin{itemize}
+		\item A primeira linha descreve cada coluna;
+		\item A primeira coluna descreve cada linha;
+		\item Ao final, a planilha deve ser salva como arquivo CSV.
+	\end{itemize}
+
+		 Estas planilhas devem representar as seguintes matrizes:
+	\begin{itemize}
+		\item Atributos (B) - espécies descritas por atributos;
+		\item Espécies (W) - unidade amostral descrita pelas espécies;
+		\item Ambiente (E) - unidade amostral descrita por variáveis ambientais;
+		\item Espaço (S) - unidade amostral descrita por unidades de localização;
+		\item Fator (T) - resultado da multiplicação da matriz W pela transposta B.
+	\end{itemize}
+	
+	\underline{Ambiente R}\\
+	Para execução do Biomon o testador necessita:
+	\begin{itemize}
+		\item Acesso a uma computador com o ambiente R/RStudio e internet;
+		\item Para a instalação, alguns pacotes suplementares são necessários:
+			\begin{description}
+				\item[] install.packages("devtools")
+				\item[] install.packages("shiny")
+			\end{description}
+		\item O Biomon é instalado com os comandos abaixo:
+			\begin{description}
+				\item[] devtools::install\_github("rbuhler/analyz")
+				\item[] devtools::install\_github("rbuhler/biomonCore")
+				\item[] devtools::install\_github("rbuhler/biomon")
+			\end{description}
+		\item Depois de instalado sempre que precisar acessar o Biomon execute os comandos abaixo:
+			\begin{description}
+				\item[] library("biomon") 
+				\item[] biomon()
+			\end{description}
+		\item O Biomon será aberto em uma janela de seu navegador de internet;
+		\item Execute um teste simples, a partir do quadro a esquerda escolha o arquivo de análise \textit{Sample\_Mean.csv} e pressione o botão \textit{Execute}, você deve obter como resposta o número 5;
+		\item Se tudo funcionou bem o software está pronto para ser utilizado, quando não quiser mais usá-lo simplesmente feche o navegador e tecle ``ESC'' no ambiente R para encerrar a execução.
+	\end{itemize}
+
+		\item{\textbf{REALIZAÇÃO}}
+		\begin{description}
+			\item[-] Execute o software Biomon;
+			\item[+] Preparação
+			\item[-] Faça o \textit{upload} de um arquivo CSV de análise a partir da interface;
+			\item[-] Da mesma forma faça o \textit{upload} das matrizes de dados de campo;
+			\item[-] Desta forma estes arquivos ficam disponíveis para análise no ambiente Biomon;
+			\item[-] Atualize a página do navegador (isso será corrigido em uma nova versão).
+			\item[+] Execução
+			\item[-] A partir do quadro a esquerda (\textit{Analysis}) escolha o arquivo de análise a ser executado;
+			\item[-] Em seguida escolha a(s) matriz(es) (\textit{Data Matrices}) necessária(s) para a análise indicada;
+			\begin{description}
+				\item[+] Por exemplo:
+				\item[-] Para o cálculo da matriz T são necessárias apenas as matrizes de atributos B e espécies W;
+				\item[-] Esta informação deve ser combinada entre o estatístico e o pesquisador previamente.
+			\end{description}
+			\item[-] Selecione o botão \textit{Execute}.
+			\item[+] Resultado
+			\item[-] Confira se a execução trouxe os resultados esperados.
+		\end{description}
+		
+		\item{\textbf{OUTRAS INFORMAÇÕES}} \\
+	
+	\begin{description}
+		\item[] \underline{Final do Teste}\\
+		\item[-] Repita este processo quantas vezes julgar necessário com outras matrizes ou solicite novos arquivos de análise;
+		\item[-] Ao final responda ao questionário de avaliação de sua experiência em: \\
+		\url{http://goo.gl/forms/OSqClNaWwl}.
+	\end{description}
+	
+	Fevereiro de 2015.\\
+	Muito obrigado,\\
+	Rodrigo Bühler\\
+
+	\end{enumerate}

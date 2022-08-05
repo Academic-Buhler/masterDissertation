@@ -1,0 +1,46 @@
+This is BibTeX, Version 0.99d (TeX Live 2013)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: Rodrigo_Buhler_Dissertacao_v6.00.aux
+The style file: unisinos.bst
+Database file #1: bibtex/Dissertacao.bib.bib
+You've used 62 entries,
+            2526 wiz_defined-function locations,
+            996 strings with 15501 characters,
+and the built_in function-call counts, 74711 in all, are:
+= -- 8827
+> -- 276
+< -- 887
++ -- 4959
+- -- 309
+* -- 3354
+:= -- 6111
+add.period$ -- 215
+call.type$ -- 62
+change.case$ -- 686
+chr.to.int$ -- 1
+cite$ -- 62
+duplicate$ -- 10342
+empty$ -- 3009
+format.name$ -- 870
+if$ -- 16592
+int.to.chr$ -- 1
+int.to.str$ -- 0
+missing$ -- 0
+newline$ -- 127
+num.names$ -- 231
+pop$ -- 1196
+preamble$ -- 1
+purify$ -- 124
+quote$ -- 0
+skip$ -- 4813
+stack$ -- 0
+substring$ -- 4499
+swap$ -- 6373
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 377
+warning$ -- 0
+while$ -- 343
+width$ -- 0
+write$ -- 64

@@ -1,0 +1,31 @@
+% -----------------------------------------------------------------------------------------------
+	\documentclass[twoside,english,brazilian]{UNISINOSmonografia}
+	\usepackage[latin1]{inputenc} %by Rodrigo - reconhecimento de caracteres especiais
+%	\usepackage[utf8]{inputenc} % charset do texto (utf8, latin1, etc.)
+	\usepackage[T1]{fontenc} % encoding da fonte (afeta a sep. de sílabas)
+	\usepackage{graphicx} % comandos para gráficos e inclusão de figuras
+	\usepackage{bibentry} % para inserir refs. bib. no meio do texto
+	\usepackage{caption}	% textos para imagens (label e fonte)
+	
+ 	\graphicspath{{imagens/}}	  		% Folder for images
+	\usepackage{multirow}    			%Table features - multi row
+	\usepackage{hyperref}			%Hyperlinks
+	\usepackage{amssymb,amsmath}
+	\usepackage{pgfgantt}
+	\usepackage{soul}                                 %Strikethrough
+	\usepackage{booktabs}                         %Table format
+	\usepackage{listings}                            %Codigo fonte
+% -----------------------------------------------------------------------------------------------
+	\unisinosbst
+% -----------------------------------------------------------------------------------------------
+	\begin{document}
+
+		\chapter{Caso de Teste}\label{sec:caso_teste}
+		% Include com o caso de teste
+		\input{Caso_de_Estudo.tex}
+
+		\chapter{Avaliação}\label{sec:avaliacao}
+		% Include com a pesquisa
+		\input{Pesquisa_TAM.tex}
+		
+	\end{document}

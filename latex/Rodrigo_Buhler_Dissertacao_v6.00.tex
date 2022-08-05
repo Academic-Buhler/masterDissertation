@@ -1,0 +1,1103 @@
+% -----------------------------------------------------------------------------------------------
+	\documentclass[twoside,english,brazilian]{UNISINOSmonografia}
+	\usepackage[latin1]{inputenc} %by Rodrigo - reconhecimento de caracteres especiais
+%	\usepackage[utf8]{inputenc} % charset do texto (utf8, latin1, etc.)
+	\usepackage[T1]{fontenc} % encoding da fonte (afeta a sep. de sílabas)
+	\usepackage{graphicx} % comandos para gráficos e inclusão de figuras
+	\usepackage{bibentry} % para inserir refs. bib. no meio do texto
+	\usepackage{caption}	% textos para imagens (label e fonte)
+	
+ 	\graphicspath{{imagens/}}	  		% Folder for images
+	\usepackage{multirow}    			%Table features - multi row
+	\usepackage{hyperref}			%Hyperlinks
+	\usepackage{amssymb,amsmath}
+	\usepackage{pgfgantt}
+	\usepackage{soul}                                 %Strikethrough
+	\usepackage{booktabs}                         %Table format
+	\usepackage{listings}                            %Código fonte
+	\usepackage{pdfpages}     			%Insert PDF
+	\usepackage{afterpage}			%Blank page
+	
+% -----------------------------------------------------------------------------------------------
+	\unisinosbst
+% -----------------------------------------------------------------------------------------------
+	\autor{Bühler}{Rodrigo}
+	\titulo{Biomon: Modelo de Ambiente para Automação de Análise de Dados em Biomonitoramento}
+	\orientador[Prof.~Dr.]{Barbosa}{Jorge L.V.}
+	%\coorientador[Prof.~Dr.]{Lamport}{Leslie}
+
+	\unidade{Unidade Acadêmica de Pesquisa e Pós-Graduação}
+	\curso{Programa de Pós-Graduação em Computação Aplicada}
+	\nivel{Nível Mestrado}
+	\natureza{
+%
+Dissertação apresentada como requisito parcial para a obtenção
+do título de Mestre pelo Programa de Pós-Graduação em Computação
+Aplicada da Universidade do Vale do Rio dos Sinos --- UNISINOS
+%
+%Proposta de dissertação submetida à avaliação como requisito parcial
+%para a obtenção do título de Mestre, pelo Programa Interdisciplinar de
+%Pós-Graduação em Computação Aplicada da Universidade do Vale dos
+%Sinos --- UNISINOS
+}
+	\local{São Leopoldo}
+	\ano{2015}
+% -----------------------------------------------------------------------------------------------
+% Dados da ficha catalográfica
+% (obrigatória somente para dissertações e teses)
+	\cip{Dissertação (mestrado)}{004.9}
+	\bibliotecario{Bibliotecário: Flávio Nunes}{10/1298}
+% -----------------------------------------------------------------------------------------------
+% cada palavra-chave deve ser fornecida duas vezes, uma em português e
+% outra no idioma estrangeiro (na verdade, em tantos idiomas quantos se
+% desejar).
+	\palavrachave{brazilian}{Monitoramento Biológico}
+	\palavrachave{brazilian}{Estatística}
+	\palavrachave{brazilian}{Modelo de Equação Estrutural}		
+	\palavrachave{english}{Biomonitoring}
+	\palavrachave{english}{Statistics}
+	\palavrachave{english}{Structural Equation Modelling}
+% -----------------------------------------------------------------------------------------------
+%\title{Modelo de Ambiente para Automação de Análise de Dados em Biomonitoramento}
+%\author{Rodrigo Bühler}
+%\maketitle
+	\begin{document}
+	\capa
+	\folhaderosto
+	\folhadeaprovacao %Não deve ser incluí­da nos TCCs
+% -----------------------------------------------------------------------------------------------
+	\begin{dedicatoria}
+		 % Quebra a linha dando um espaçamento maior
+		Dedico essa dissertação às pessoas \\
+		queridas que se dispuseram a contribuir com seu tempo \\
+		e conhecimento para o engrandecimento deste trabalho.\\[4ex]
+		% Faz o texto ficar em itálico
+		\begin{itshape} 
+			Quem não vive para servir não serve para viver.\\
+		\end{itshape}
+		\textsc{Mahatma Gandhi} % \textsc é o "small caps"
+	\end{dedicatoria}
+% -----------------------------------------------------------------------------------------------
+	%\includepdf[pages={1}]{Include_Defesa.pdf}
+% -----------------------------------------------------------------------------------------------
+% Agradecimentos (opcional).
+	\begin{agradecimentos}
+Gostaria de agradecer em primeiro lugar, ao meu orientador, Jorge L.V.Barbosa, que me apoiou na construção dessa dissertação. Sem os conselhos e suas contribuições não teria sido possível realizar esse trabalho. Jorge, obrigado por ter acreditado e investido na minha proposta, mesmo em se tratando de um assunto fora de sua área de pesquisa, sou muito grato por isso.
+
+Agradeço aos colegas de mestrado Cassius Paim, Fábio Pittoli, Jonathan Prates e Rodrigo Reis pela parceria e bom humor mesmo nos momentos mais difíceis. Seu companheirismo nesta caminhada gerou como fruto não apenas bons momentos mas uma amizade verdadeira, podem contar comigo para o que estiver ao meu alcance.
+
+Aos amigos biólogos e pesquisadores Gerhard Overbeck, Mariana Vieira, Luciana Menezes, Fábio Piccin Torchelsen, Fabiane Lucheta, Laura Capellatti, Natália Mossmann Koch, Suzana Martins e Márcia Käffer meu mais sincero obrigado pelo seu tempo e conhecimento disponibilizados com o interesse exclusivo de contribuir com a pesquisa.
+
+Ao Programa de Pós Graduação em Computação Aplicada e à Universidade Unisinos obrigado por todo o suporte e por permitir que este trabalho fosse desenvolvido.
+
+À CAPES pela concessão da bolsa.
+
+E por fim, mas não menos importante, um obrigado mais que especial para a minha família. Pai, mãe, obrigado por sempre deixarem claro a importância dos estudos e de fazer todo o possível para que pudéssemos, eu e meu irmão Gustavo, nos dedicar aos estudos, nos incentivando e motivando mesmo nos momentos mais difíceis. Natália, meu amor, compartilho contigo o resultado deste trabalho pois fizestes parte dele do planejamento a sua finalização. Obrigado pela paciência e maturidade nos meus momentos de mau humor e cansaço, tenho aprendido muito contigo e espero continuar aprendendo sempre.
+	\end{agradecimentos}
+% -----------------------------------------------------------------------------------------------
+% Epígrafe (opcional).
+% ``[...] o autor apresenta uma citação, seguida de indicação de autoria,
+% relacionada com a matéria tratada no corpo do trabalho. Podem, também,
+% constar epígrafes nas folhas de aberturas das sessões primárias.''
+%	\begin{epigrafe}
+%		"\textit{Ninguém abre um livro sem que aprenda alguma coisa}".\\
+%		(Anônimo)
+%	\end{epigrafe}
+% -----------------------------------------------------------------------------------------------
+% Resumo em Português
+% A recomendação é para 150 a 500 palavras.
+	\begin{abstract}
+		O biomonitoramento tem importante participação na compreensão das dinâmicas da natureza. Compreender a maneira como a vida reage às interferências externas ajuda na predição e tratamento dos efeitos fruto dessas alterações. Além disso, possibilita o entendimento sobre os processos de recuperação de áreas contaminadas, ajuda a prever efeitos das mudanças climáticas e até mesmo entender como é possível compartilhar o ambiente com diferentes espécies de forma a minimizar os danos. Com o objetivo de agregar valor na etapa de análise de dados de campo, o presente trabalho propõe um modelo de software para apoio ao pesquisador. O modelo proposto contempla a interação entre o pesquisador responsável pela coleta e organização dos dados e o estatístico encarregado de elaborar e por vezes implementar agrupamentos de técnicas estatísticas que descrevem uma análise estatística. Levando em conta o fato de que a área de estudos do Biomonitoramento abrange diversas abordagens de interação com a fauna e flora, o modelo foi criado de forma que sua adaptação para diferentes métodos aconteça com um mínimo de esforço. O modelo procura atender tanto o biomonitoramento, na elaboração das análises de dados e interpretação dos resultados, quanto suportar uma arquitetura extensível e adaptável a diferentes contextos. Neste sentido são propostos módulos ou pacotes de funções para interface, controle de requisições e suporte a execução das técnicas estatísticas. Como forma de mostrar a viabilidade da implementação e validar o modelo, foi implementado um protótipo, o qual foi usado em uma avaliação envolvendo pesquisadores da área do biomonitoramento. Esta avaliação foi aplicada com a utilização de um teste de aceitação de tecnologia baseado no TAM - \textit{Technology Acceptance Model} onde os resultados obtidos se apresentaram bastante positivos tanto para a percepção de utilidade do software proposto quanto para a facilidade de uso.
+	\end{abstract}
+%	 -----------------------------------------------------------------------------------------------
+% Resumo em língua estrangeira 
+%(obrigatório somente para teses e dissertações).
+%
+% O idioma usado aqui deve necessariamente aparecer nos parâmetros do
+% \documentclass, no início do documento.
+	\begin{otherlanguage}{english}
+		\begin{abstract}
+			The biomonitoring has an important role in the understanding of the dynamics of nature. Understanding the way life reacts to external interferences helps us to predict and treat the effects result of these changes. In addition to that, it provides a better understanding of the steps of self-recovery processes in areas damaged by toxic accidents, regarding the weather changes or even knowledge on how it is possible to share the same space with different species, minimizing the damages. Aiming at adding value to the step of data analysis, the current dissertation proposes a software model for supporting the researcher. The proposed model covers the interaction between the researcher, who is responsible for collecting and organizing the data filed, and the statistician, who is in charge of defining and sometimes implementing sets of statistical techniques describing a statistical analysis. Taking into account that the Biomonitoring area of study covers different approaches in terms of fauna and flora interactions, the model was created in a way that its adaptation to handle such a diverse set of options would happen with a minimum effort. With the objective to cover both the biomonitoring, assembling the analysis and interpreting the results, and an architecture extensible and adaptable to a wide range of contexts we propose modules or packages for the interface, requisition controllers and statistical support. In a way of presenting the validity and viability of the proposed implementation into the described context a prototype is implemented and evaluated by biomonitoring researchers. Such evaluation was applied based on TAM (Technology Acceptance Model) acceptance test. The results obtained were very positive for the perception of usefulness as they were for the ease of use.
+		\end{abstract}
+	\end{otherlanguage}
+% -----------------------------------------------------------------------------------------------
+% Lista de Figuras (opcional).
+	\listoffigures
+% -----------------------------------------------------------------------------------------------
+% Lista de Tabelas (opcional).F
+	\listoftables
+% -----------------------------------------------------------------------------------------------
+% Lista de Abreviaturas (opcional).
+% Deve ser passada como parâmetro a maior das abreviaturas utilizadas.
+	\begin{listadeabreviaturas}{UNISINOS}
+		\item[ANCOVA] Analysis of Covariance
+		\item[ANOVA] Analysis of Variance
+		\item[CCA] Canonical Correspondence Analysis
+		\item[CSV] Comma Separated Values
+		\item[GLM] General Linear Model
+		\item[GPL] General Public License		
+		\item[GUI] Graphical User Interface
+		\item[HTML] Hyper Text Markup Language
+		\item[MANOVA] Multivariate Analysis of Variance
+		\item[MVC] Model-Views-Controllers
+		\item[PCA] Principal Component Analysis
+		\item[RFC] Request for Comment
+		\item[SEM] Structured Equation Model
+		\item[TAM] Technology Acceptance Model
+		\item[UNISINOS] Universidade do Vale dos Sinos		
+	\end{listadeabreviaturas}
+% -----------------------------------------------------------------------------------------------
+% Lista de Siglas (opcional).
+% Deve ser passada como parâmetro a maior das siglas utilizadas.
+%	\begin{listadesimbolos}{Ca}
+%		\item[\textsuperscript{o}C] Graus Celsius
+%		\item[Al] Alumínio
+%		\item[Ca] Cálcio
+%	\end{listadesimbolos}2003_Markert
+% -----------------------------------------------------------------------------------------------
+% Sumário
+	\tableofcontents
+% -----------------------------------------------------------------------------------------------
+% Introdução
+\chapter{INTRODUÇÃO}
+	Atualmente muito se discute a respeito do impacto do homem no meio ambiente. Diferentes correntes de pesquisadores procuram justificar seu ponto de vista com afirmativas baseadas nas mais variadas fontes e teorias. Como mencionado em \cite{2003.Markert} é notório que o mundo contemporâneo passa por mudanças cada vez mais rápidas. Este mesmo autor destaca que o aumento de poluentes conhecidos e desconhecidos aliados com mudanças climáticas e a diminuição da biodiversidade se mostram uma ameaça para todos os ecossistemas. Isso revela que estes sistemas complexos apresentam inter-relações que demandam esforços na coleta e integração de diferentes fontes de informação, a fim de proporcionar ferramentas para seu acompanhamento.
+
+	A este acompanhamento se dá o nome de biomonitoramento onde a qualidade ambiental é avaliada a partir do acompanhamento de organismos presentes na área monitorada. Estes organismos são conhecidos como bioindicadores e biomonitores, \cite{2003.Markert} e têm se mostrado excelentes ferramentas para o biomonitoramento. 
+	
+	Idealmente são organismos encontrados em qualquer lugar facilitando a comparação entre diferentes regiões \cite{2001.Conti}. No caso dos organismos bioindicadores, são observados, suas famílias \cite{2008.Plata}, função e \textit{status} entre outras características. Desta forma qualquer alteração em relação ao que se conhece sobre estes organismos pode fornecer informações qualitativas do impacto no ambiente em questão. Já os organismos biomonitores têm como característica acumular poluentes do ambiente em sua composição, o que pode fornecer ao pesquisador um resultado quantitativo do impacto da poluição no ambiente ao realizar estudos na sua estrutura e composição.
+
+	\section{Motivação}
+	O biomonitoramento trata da avaliação da qualidade do ambiente por meio da coleta de dados de campo, contemplando informações de agentes conhecidos causadores de alterações ou estresse ambiental e dados dos organismos bioindicadores que respondem a estas alterações \cite{1991.Ellenberg}. Diferentes metodologias são empregadas nesta tarefa, o que implica nas mais variadas formas de registrar estas informações, como índices que representam uma determinada área em um ponto do tempo. Este estudo é efetuado em três etapas (Figura \ref{Etapas biomonitoramento}): coleta de dados em campo, tabulação dos dados e teste ou análise dos dados para obtenção de informações sobre o ambiente.
+
+	 	\begin{figure}[!ht]
+			\caption{Etapas do Biomonitoramento e suas Áreas de Conhecimento}		
+			\centering
+			\includegraphics[width=90mm]{biomonitoramento.png}
+			\caption*{Fonte: Elaborada pelo autor}
+			\label{Etapas biomonitoramento}
+		\end{figure}
+		
+	Informações como espécie de árvores, qualidade do ar, luminosidade, posição geográfica, análise química de componentes presentes em organismos como plantas e líquens são exemplos de variáveis observadas e catalogadas em uma pesquisa de campo para o biomonitoramento \cite{2013.Lavorel}. Após este levantamento, os dados são tabulados em matrizes que correspondem às variáveis ambientais, como por exemplo as variáveis de espaço e variáveis de comunidades biológicas \cite{2012.Koch}, a partir daí a análise de dados é executada, independentemente do método utilizado na sua coleta.
+		
+	Para a avaliação das variáveis os dados são submetidos a técnicas estatísticas que procuram demonstrar o relacionamento entre as variáveis que foram observadas em campo, a fim de encontrar padrões e respostas nestas relações, avaliar a representatividade da amostra coletada em relação à comunidade que esta representa, entre outros aspectos.
+	
+	São alguns exemplos de técnicas estatísticas utilizadas no processamento dos dados de campo,  a análise de variância univariada e multivariada, análise de regressão, análise de caminho (\textit{path analysis}), Bayes e Modelo de Equações Estruturais (SEM), tendo cada uma um objetivo específico sobre uma mesma base de dados, ajudando o pesquisador a obter respostas para explicar o que é observado na natureza. 
+			
+	Para dar suporte à análise de grandes bases de dados ou mesmo como forma de automatizar esta tarefa, ferramentas estatísticas foram desenvolvidas em diferentes plataformas e linguagens de programação. Fornecendo as mais variadas formas de entrada de dados, configurações e representações gráficas destas análises, estas ferramentas de maneira geral apresentam um suporte generalista de forma a atender as mais variadas necessidades. Quando trata-se especificamente de biomonitoramento, ferramentas como Smart PLS \cite{2014.SmartPLS}, SPSS \cite{2014.SPSS}, Multiv \cite{2014.Multiv} e o ambiente de computação estatística R \cite{2014.R}, entre outros, são frequentemente relacionados como ferramentas de apoio na análise dos dados.
+	
+	O pesquisador de posse da descrição dos passos a serem seguidos em uma análise estatística, elaborados por um estatístico, faz uso do aparato tecnológico de software disponível a fim de chegar ao resultado desejado. De maneira geral os referidos softwares são desenvolvidos e distribuídos de forma a cobrir um assunto específico como por exemplo negócios \cite{2014.SPSS} ou ainda uma abordagem estatística específica como análise de variância em matrizes de dados ou teste de aleatorização \cite{2014.Multiv}. Esta característica faz com que haja um esforço extra por parte do pesquisador que precisa fazer uso de diferentes ferramentas de software com seus próprios procedimentos de utilização como interface e entrada de dados para uma determinada sequencia de passos descritos por uma análise.
+	
+	Pesquisadores em biomonitoramento têm buscado suporte nestes diferentes softwares estatísticos a fim de obter respostas às suas questões de pesquisa, como em \cite{2008.Plata} onde os softwares CANOCO \cite{2014.Canoco} e Statistica \cite{2014.Statistica} são utilizados na análise dos dados. O fato de se tratarem de ferramentas especializadas em um determinado aspecto estatístico, faz com o que pesquisador precise elaborar uma combinação de diferentes programas ou ambientes estatísticos em sua pesquisa. Este fato acarreta em um esforço extra de preparação dos dados para diferentes formas de entrada de dados bem como a manipulação dos mais variados paradigmas de interface com usuário. A ausência de uma ferramenta dinâmica ambientada nas características do biomonitoramento faz com que o pesquisador precise dominar habilidades diferentes das inerentes a sua área de pesquisa.
+	
+	\section{Definição do Problema e Questão de Pesquisa}
+	\subsection{Definição do Problema}
+	Considerando a inexistência de uma solução onde em um mesmo ambiente o pesquisador tenha condições de executar todos os passos de uma análise, surge a oportunidade da proposição de um software para suporte às etapas do biomonitoramento como entrada de dados, organização das técnicas estatísticas bem como sua execução. Este software deve requerer do pesquisador habilidades inerentes a pesquisa e um mínimo de complexidade tecnológica, transferindo para o estatístico a elaboração das análises estatísticas e para a arquitetura proposta meios de promover esta cooperação.
+
+	Para tal, algumas características se mostram estratégicas na tarefa de disponibilizar o software proposto:
+	\begin{itemize}
+		\item elaborar um protocolo onde é descrita a forma como o estatístico deve informar as técnicas estatísticas e seus parâmetros a fim de criar arquivo de análise estatística para ser lido e interpretado pelo software;
+		\item entregar ao usuário uma interface adaptada aos termos do biomonitoramento onde este deve informar os dados de campo \cite{2012.Legendre}, bem como o arquivo elaborado pelo estatístico com a análise a ser executada \cite{2012.Koch};
+		\item disponibilizar um conjunto de técnicas estatísticas para serem acessadas pelos passos descritos pelo estatístico, como por exemplo análise de variância multivariada (MANOVA) e teste de aleatorização Monte-Carlo, Bayes e SEM  e aplicadas sobre os dados informados pelo pesquisador como em \cite{1996.Pillar} e \cite{2002.McCune};
+		\item como forma de promover a adaptabilidade do software em novas versões para atendimento a diferentes segmentos da área de pesquisa é fundamental a modularização de sua arquitetura como forma de reduzir o impacto do desenvolvimento de tais novas opções.
+	\end{itemize}
+	
+	\subsection{Questão de Pesquisa}
+	Frente a inexistência de uma solução que atenda as características da análise de dados de campo em biomonitoramento, onde haja suporte à entrada de dados e flexibilidade na elaboração de análises estatísticas em um ambiente único, surge a seguinte questão de pesquisa: "Poderia tal ambiente efetivamente agregar valor ao trabalho do pesquisador na execução do biomonitoramento, possibilitando a este a combinação em uma mesma interface da entrada de dados de campo e a escolha de diferentes análises estatísticas específicas para execução sobre estes dados?"
+	
+	\section{Objetivos}
+	O objetivo geral desta trabalho é a modelagem de uma proposta de software para suporte a análise de dados em biomonitoramento, onde é possível a elaboração e execução de uma sequência de passos estatísticos em um mesmo ambiente. Além deste suporte ao pesquisador o modelo deve apresentar uma modelagem que fomente sua extensão ou adaptação, com baixo impacto no software como um todo, para a cobertura de diferentes áreas do biomonitoramento. Para que este objetivo seja alcançado foram definidos os seguintes objetivos específicos:
+		
+	\begin{enumerate}
+		\item Descrever a fundamentação teórica destacando a etapa de coleta de campo e organização dos dados bem como o procedimento de elaboração dos conjuntos de técnicas estatísticas;
+		\item Apresentar trabalhos relacionados na forma de ferramentas computacionais utilizadas na organização dos dados e na execução dos métodos estatísticos definidos para atender a determinada abordagem adotada pelo pesquisador; 
+		\item Detalhar o modelo de software proposto de forma a ilustrar a maneira como seu desenho e implementação podem responder à questão de pesquisa e resultar em um software realmente útil para a análise de dados de campo com características que o habilitam para ser facilmente estendido cobrindo, desta forma, diferentes áreas da pesquisa;
+		\item Descrever a implementação de um protótipo funcional a partir do modelo proposto em um ambiente de computação estatística R \cite{2014.R}, protótipo este desenvolvido com o propósito de servir como prova de conceito;
+		\item A partir da utilização do protótipo por pesquisadores da área do biomonitoramento executar uma avaliação de aceitação de software com estes a fim de avaliar sua experiência na utilização do Biomon;
+		\item Apresentar as considerações finais em relação ao cumprimento de cada etapa e fazer um balanço geral dos resultados alcançados e trabalhos futuros.
+	\end{enumerate}
+			
+	\section{Metodologia}
+	A fim de viabilizar o modelo proposto, foi realizada uma pesquisa com o objetivo de identificar os passos executados pelo pesquisador quando da avaliação da qualidade ambiental de uma área por meio de biomonitoramento. A pesquisa procurou cobrir as etapas e conceitos envolvidos, bem como publicações relacionadas com biomonitoramento, onde foram aplicadas de forma prática os métodos e técnicas discutidos no presente trabalho.
+ 	
+	A partir deste estudo foi proposto o Biomon, um modelo de software que permite a cobertura das mais variadas estruturas de dados, e técnicas estatísticas para análise destes dados, em um ambiente único ambientado nos termos e necessidades da área do biomonitoramento.
+	
+	Como forma de responder a questão de pesquisa proposta foi implementado um protótipo no ambiente de computação estatística R \cite{2014.R}, que foi avaliado por pesquisadores convidados da área de biomonitoramento. Seu parecer quanto a utilização do protótipo em uma situação real serviu de método de validação do modelo proposto.
+	
+	\section{Organização do Texto}
+	Esta dissertação está dividida em seis capítulos. O capítulo um cobre a presente introdução já o capítulo dois contém a fundamentação teórica das etapas seguidas no biomonitoramento. No capítulo três são apresentados trabalhos relacionados, na forma de softwares de estatística, que são aplicados em situações reais de análise de dados de campo por pesquisadores. O quarto capítulo se refere ao detalhamento do modelo proposto em sua arquitetura e desenho. No capítulo cinco será apresentada a implementação de um protótipo funcional implementado com a função de servir como prova de conceito e utilizado em uma avaliação de aceitação de software detalhada no capítulo seis. Já no capítulo sete serão demonstrados os resultados obtidos em um balanço final e listados possíveis trabalhos futuros.
+	
+	\chapter{FUNDAMENTAÇÃO TEÓRICA}
+	De maneira a contextualizar a presente proposta as seções a seguir irão cobrir conceitos de biomonitoramento  como coleta e organizações de dados coletados em campo bem como as análises estatísticas e suporte tecnológico disponível para tratamento destas informações. O contexto abordado se refere ao ambiente no qual Biomon está inserido e propõe suporte.
+	
+	Com o objetivo de apresentar um caso de uso real será apresentado um método de coleta e análise de dados em biomonitoramento onde é feito o estudo dos níveis de degradação e recuperação de áreas de floresta com a utilização de líquens como biomonitores. Segundo literatura especializada os líquens são os organismos mais adequados para esta tarefa \cite{2001.Conti}. Já para demonstrar a forma como técnicas estatísticas são empregadas no biomonitoramento será abordada uma técnica de teste de hipóteses com a utilização do conceito de análise de caminho (\textit{path analysis}).
+	
+	Quanto ao suporte tecnológico será apresentado o ambiente de programação estatística R, comumente referenciadas em material científico como em \cite{2012.Kosicki} e \cite{2004.Gentleman}. Importante observar que em um mesmo estudo, por vezes, é possível notar a utilização de diferentes softwares/implementações complementares a fim de executar as técnicas estatísticas descritas por uma análise.
+
+	\section{Biomonitoramento}
+	O biomonitoramento trata da identificação das reações dos organismos frente as interferências em seu hábitat \cite{1991.Ellenberg}. Diferentes bioindicadores, ambientes e agentes poluentes são observados, como em \cite{2001.Conti} onde líquens são utilizados como biomonitores para avaliar níveis de poluição ou como em \cite{2008.Plata} que também fez uso de líquens, mas desta vez para determinar se dada floresta está livre de distúrbios ou interferências de agentes externos.
+	
+	Independentemente do objetivo, estudos em biomonitoramento seguem uma estrutura semelhante, onde o pesquisador propõe uma hipótese para um efeito a ser observado. A partir de então procura com a ajuda de organismos bioindicadores, relacionar alterações nestes organismos com as interferências monitoradas. As características a serem analisadas no ambiente alvo definem tanto o organismo a ser coletado ou observado quanto os atributos a serem estudados. Além disso são coletados dados das chamadas variáveis ambientais como em \cite{2010.Hepp} onde além do bioindicador, um microinvertebrado do fundo de rios, são coletadas informações como velocidade da corrente do rio, temperatura da água, nível de oxigênio, pH, entre outros.
+	
+	As coletas são concentradas em diferentes áreas ou parcelas (\textit{plots}), de forma a produzir evidências que caracterizem cada ponto e proporcionem subsídio para comparações e inferências a partir das diferenças. Além disso, também é comum a definição de uma área controle como em \cite{2010.Hepp} e \cite{2000.DaSilva} onde foram definidas regiões referência para comparação com as demais.
+	
+	Embora compartilhem uma mesma estrutura, cada método descreve à sua maneira a forma como os dados serão coletados em campo. Um maior detalhamento a respeito da coleta de dados e análise destes serão descritos nas seções seguintes.
+	
+	\section{Coleta e Organização de Dados}
+	Diferentes métodos de coleta de dados em campo podem ser encontrados em publicações da área da ecologia com ênfase em biomonitoramento. Variações em áreas como florestas, lagos ou desertos, em unidades amostrais tais como árvores, pedras, água doce ou salgada e, de diferentes bioindicadores como líquens, peixes, organismos invertebrados ou bactérias, determinam a forma como os dados serão coletados. Por vezes, pesquisas semelhantes como \cite{2008.Jeon} e \cite{2010.Hepp} apresentam metodologias diferentes. 
+	
+	Em \cite{2008.Jeon} a proposta se refere a um sistema de alarme quanto ao nível de poluição da água. O método proposto é a análise do comportamento de um agente bioindicador por meio da análise de imagens registradas por filmadoras ou \textit{frame grabbers}. Já \cite{2010.Hepp} procura avaliar o impacto da agricultura e urbanização em rios por meio da coleta e análise de um determinado organismo bioindicador. Estes dois exemplos ilustram a necessidade de suporte a diferentes entradas de dados para uma mesma finalidade de análise tendo em vista que as técnicas estatísticas empregadas para análise destes dados são, senão idênticas, semelhantes. 
+	 
+		\subsection{Método do Elástico}
+		De maneira a ilustrar com mais detalhes uma metodologia de coleta de dados, foi escolhido o método conhecido como Método do Elástico proposto em \cite{1992.Marcelli}, que trata especificamente de estudos com líquens. A partir de uma hipótese inicial este método propõe a avaliação da cobertura de líquens (bioindicador) nas árvores (unidades amostrais) como subsídio para ao teste de hipótese.
+		
+		Aos dados da coleta, sugere o autor, devem ser agregadas informações adicionais do ambiente onde se encontram as unidades amostrais, tais como luminosidade, humidade e velocidade do vento, entre outros. Também são coletados dados a respeito da própria unidade amostral, como pH e cor da casca, todos estes dados são tabulados e relacionados seguindo a metodologia proposta.
+		
+		Deste relacionamento são elaboradas tabelas de variáveis ambientais, de onde se parte para a transformação dos dados em informações com a aplicação das mais variadas técnicas estatísticas. Em \cite{2009.Kaffer} são relacionadas as técnicas: Análise de Co-Variância (ANCOVA), Modelo de Regressão Linear (GLM) e Coeficiente de S\o rensen.
+		
+		A próxima seção trata das técnicas estatísticas, utilizadas no estudo dos dados de campo. Mais especificamente será tratada a técnica conhecida como Modelo de Equações Estruturais (SEM) utilizada no estudo de relações de causa-efeito, ideal no entendimento da contribuição de cada uma das variáveis na degradação ou recuperação de dada área.
+		
+	\section{Técnica Estatística}
+	A estatística tem sua contribuição no apoio ao desenvolvimento de modelos e suporte à predições na ciência, e na sua confrontação com dados reais observados em campo \cite{1995.Gotelli}. Estudos científicos têm como objetivo observar causas para fenômenos observáveis e a coleta de dados é um meio para este fim. A partir desta coleta é formulada uma hipótese que por sua vez gera predições, estas últimas são testadas com novas rodadas de observações. Em situações onde as predições não corroboram o que foi proposto, a hipótese precisa ser revista e o processo se reinicia.
+	
+	Na tarefa de entender ou explicar os fenômenos observados, as análises de causa-efeito têm papel fundamental, e podem ser executadas por meio de diferentes metodologias. Entre as principais técnicas é possível mencionar \textit{Path Analysis} \cite{2009.Shipley}, Bayes \cite{2007.Arhonditsis} e SEM \cite{2013.Walker}.
+	
+		\subsection {Modelo de Equações Estruturais (SEM)}
+		A técnica de modelagem de relações de causa-efeito SEM, sigla em inglês para Modelo de Equações Estruturais, fornece ao pesquisador uma ferramenta para quantificar e testar modelos teóricos \cite{2003.Pugesek}. A partir da definição dos parâmetros que demonstram a magnitude do efeito de uma relação direta ou indireta entre variáveis de um modelo, o pesquisador pode avaliar uma proposta de hipótese. A este processo se dá o nome de Aspecto Confirmatório de SEM, já a repetição deste procedimento com novos dados proporciona a possibilidade de análise do impacto destes no modelo, este é o chamado Aspecto Exploratório de SEM.
+		
+		A principal diferença entre SEM e outras técnicas semelhantes, é o suporte a variáveis latentes, este tipo de variável não pode ser observada diretamente na coleta de dados mas é caracterizada de forma indireta sendo composta por dados de outras variáveis associadas.
+		
+		Em \cite{2013.Mazancourt}, os autores propõem que um ecossistema se mantém estabilizado em razão da biodiversidade por meio de três mecanismos: a resposta ambiental, a demografia e um baixo valor de erro nas observação. Diferentes técnicas estatísticas foram aplicadas sobre bases de dados preexistentes de diferentes regiões, como forma de caracterizá-las. A partir de então foram elaborados modelos SEM onde os mecanismos propostos foram testados quanto a sua participação no fenômeno observado.
+		
+		Já \cite{2013.Lavorel} faz uso de SEM como forma de identificar os fatores da gestão de pastagens que possuem maior impacto na polinização de plantas. Os autores propõem uma metodologia para identificação desta relação, a partir de então elaboram um modelo SEM de efeito-resposta e testam os dados coletados em campo.
+		
+		Os trabalhos citados são alguns exemplos da utilização de SEM em biomonitoramento, com o objetivo de explicar a participação de diferentes fatores em um dado fenômeno.
+		
+		\section{Suporte Tecnológico}
+		Para o suporte a análise de dados, diferentes opções de software estatístico podem ser encontradas. De maneira geral estes softwares fornecem suporte a uma abordagem ou conceito estatístico oferecendo ao usuário diferentes paradigmas de operação. Desta forma o pesquisador que necessita aplicar diferentes conceitos estatísticos em uma análise precisa também interagir com diferentes contextos de software.
+		
+		 Em \cite{1996.Pillar} os autores, no papel de pesquisador e estatístico, implementaram suas ferramentas, o Multiv \cite{2014.Multiv} e o SYNCSA \cite{2014.SYNCSA}, e as utilizam como forma de sustentar sua proposta. Este é um exemplo de implementação de software dedicado ao método estatístico apresentado pelo autor. A medida que diferentes índices, como \textit{t}Student ou $Chi^2$, ou técnicas, como Bayes ou SEM, sejam agregadas à análise dos dados de campo, outras ferramentas precisam ser agregadas ao trabalho do pesquisador, como em \cite{1992.Ter} que fez uso do software CANOCO \cite{2014.Canoco} em suas pesquisas.
+	
+		Biomon propõe um modelo de software onde o estatístico e o pesquisador interagem colaborativamente para elaborar um arquivo descrevendo a integração de técnicas estatísticas e seus parâmetros que deverá ser interpretado pelo software proposto e executado, juntamente com os dados de campo informados pelo pesquisador. A necessidade desta integração pode ser observada em \cite{2008.Plata}, onde são aplicadas técnicas como \textit{One-way ANOVA} e \textit{Scheffé post-hoc} bem como Análise de Componentes Principais (PCA) com o auxílio de dois diferentes softwares: PC-ORD \cite{2014.PC-ORD} e Statistica \cite{2014.Statistica}, cada um com sua própria interface de funcionamento e forma de entrada de dados.
+				
+		Procurando oferecer uma alternativa para a implementação do Biomon, a próxima seção apresenta o ambiente R \cite{2014.R} de computação estatística, utilizado na produção acadêmica de diversas áreas, desde análises de integração das funções do cérebro \cite{2011.Roelstraete}, passando por tratamento de imagens digitais \cite{2006.Polzehl} e biologia \cite{2002.Bonnet}. 
+		
+		O ambiente R \cite{2014.R} se apresenta como uma opção atualizada tanto em relação a seu suporte por parte da equipe de desenvolvimento de sua distribuição base atualmente na versão 3.2.0 de 16.04.2015, quanto pela sua utilização e referência em publicações recentes e importantes na área do biomonitoramento como em \cite{2012.Debastiani}. Com uma arquitetura composta por conjuntos de bibliotecas para tratamento estatístico de dados nativo, bem como pacotes desenvolvidos por outros desenvolvedores não há a necessidade de re-escrever as técnicas já suportadas. Desta forma a presente proposta pode limitar-se a descrever  como a integração destas técnicas estatísticas em uma análise é suportada e integrada em um ambiente onde o pesquisador informa seus dados e escolhe a abordagem estatística que melhor se adequa a sua necessidade.
+	
+		\subsection {Linguagem e Ambiente de Computação Estatística R}
+		R \cite{2014.R} é uma linguagem e ambiente para computação estatística e produção de gráficos, considerada uma implementação de código aberto de outra linguagem, chamada S desenvolvida inicialmente na Bell Laboratories, atualmente Lucent Technologies. O R é atualmente distribuído como software livre sob os termos da licença GPL da \textit{Free Software Foundation}.
+		
+		A interface com o usuário é essencialmente em linha de comando que, por ser um software de arquitetura aberta, pode ser incrementado com a adição de novos pacotes que estendem sua gama de possibilidades. A implementação destes pacotes exige do desenvolvedor conhecimentos técnicos de desenvolvimento, podendo inclusive agregar ao seu pacote a integração com códigos de outras linguagens como C, C++ e Fortran, por exemplo.
+		
+		Quanto a operação, o R \cite{2014.R} permite ao usuário a execução individual de cada cálculo, ou a criação de um arquivo \textit{script} onde diferentes comandos são encadeados e executados sequencialmente. Com isso é possível, com poucos conhecimentos técnicos específicos, automatizar uma rotina de análise de dados abrangendo diversas técnicas estatísticas.
+		
+		Algumas iniciativas como em \cite{2014.RStudio}, procuram tornar a utilização do R \cite{2014.R} uma tarefa mais intuitiva disponibilizando uma interface gráfica tanto para a sua operação, quanto desenvolvimento de novos pacotes.		
+
+	\chapter{TRABALHOS RELACIONADOS}
+	Este capítulo apresenta propostas de softwares que são utilizados em trabalhos de biomonitoramento como ferramenta principal, ou em conjunto com outras na análise dos dados de campo. Entre os softwares estatísticos disponíveis, foram escolhidas opções aplicadas na análise de dados em biomonitoramento com suporte a matrizes de dados univariados e multivariados ou mesmo apenas suporte estatístico estatístico à algum passo necessário para a análise de dados de campo.
+	
+	Algumas das ferramentas apresentadas a seguir foram desenvolvidas por pesquisadores como apoio às suas publicações, e a partir de então utilizadas em outros trabalhos, sendo aplicadas nos mais diferentes assuntos. A intenção é promover uma comparação entre os trabalhos relacionados usando critérios que permitam avaliar a contribuição proposta pelo Biomon.
+	
+	\section{Multiv \& SYNCSA}
+	No artigo de \cite{1996.Pillar} os autores propõem a implementação de um algoritmo para a execução de aleatorização de testes para confirmação de hipótese. Desta proposta surgiram os softwares Multiv \cite{2014.Multiv} para análise exploratória multivariada e o SYNCSA \cite{2014.SYNCSA} para análise de correlação de matrizes. Fazendo uso de uma ou mais técnicas estatísticas estes softwares podem serem utilizados isoladamente ou em conjunto com softwares complementares como em \cite{2010.Cruz}, \cite{2013.Carboni} e  \cite{2010.Hepp}.
+	
+	Ambos Multiv \cite{2014.Multiv} e SYNCSA \cite{2014.SYNCSA} são distribuídos livremente nas plataformas Apple Mac OS \texttrademark e MS Windows \texttrademark (com limitações quanto a geração de gráficos na versão MS Windows \texttrademark). Ambos softwares têm sua operação por linha de comando onde são fornecidas opções ao usuário para configuração, importação dos dados e execução das análises disponíveis. 
+	
+	A entrada de dados é feita por um arquivo texto contendo uma matriz de variáveis observadas pelas unidades amostrais. A partir da entrada dos dados algumas operações podem ser efetuadas nestes a fim de editar os títulos das linhas ou colunas e a partir daí as análises estatísticas são executadas.
+	
+	Diferente do Multiv \cite{2014.Multiv}, o SYNCSA \cite{2014.SYNCSA_R} teve implementada uma versão para o ambiente R \cite{2012.Debastiani} suportando as funcionalidades desenvolvidas anteriormente neste novo ambiente, desta forma estando disponível em uma gama maior de plataformas.
+		
+	\section{Past}
+	O artigo \cite{2001.Hammer} trata do software estatístico para paleontologia Past \cite{2014.Past}, onde os autores procuram reunir métodos para auxílio em pesquisa levando em conta o aspecto quantitativo. Apesar do contexto dirigido à paleontologia, os métodos cobertos são conhecidos e aplicados nas análises em biomonitoramento, mas ainda assim não são facilmente encontrados em distribuições de software estatístico padrão. Entre suas funcionalidades está o suporte a dados univarados e multivariados bem como análises temporais de dados, análise filogenética e representação gráfica.
+	
+	Um exemplo da utilização do Past \cite{2014.Past}, em conjunto com outro software, pode ser observado em \cite{2010.Kneitel}. 
+	
+	Past \cite{2014.Past} é distribuído livremente para plataforma MS Windows \texttrademark apenas. Sua interface gráfica apresenta ao usuário uma tabela onde os dados podem ser informados manualmente ou importados a partir de um arquivos texto, com diferentes opções de quebras como forma de identificar as colunas. Depois de informada a base de dados, as operações ocorrem por meio do acesso ao menu \textit{pull-down}, onde são aplicadas as técnicas ou funções escolhidas sobre os dados informados. Algumas funções disponibilizam ao usuário, ajustes nos seus parâmetros a fim de controlar sua execução ou apresentação.
+
+	\section{PC-ORD}
+	O software PC-ORD \cite{2014.PC-ORD} é distribuído comercialmente para a plataforma MS Windows \texttrademark, apesar de haver uma versão chamada \textit{demo} esta é limitada a apresentar a interface e algumas funcionalidades da ferramenta, nenhum cálculo é executado. Seu manual \cite{2011.McCune}, atualmente na versão 6, descreve de forma geral seu funcionamento, em relação a sua operação o software foi construído com seu sistema de ajuda sensível ao contexto provendo suporte adequado às dificuldades do usuário.
+	
+	Com foco na análise de dados ecológicos, disponibiliza uma variedade de métodos estatísticos para operação com dados multivariados. A terminologia utilizada é adaptada à área da ecologia, o que permite ao pesquisador reduzir a curva de aprendizado fornecendo uma interface familiar ao contexto da pesquisa.
+	
+	A partir do menu principal é possível importar as matrizes com os dados em vários formatos, como arquivos texto e planilhas MS Excel \texttrademark.
+	
+	Assim como os outros softwares já mencionados, PC-ORD \cite{2014.PC-ORD} cobre um contexto limitado de técnicas estatísticas, com isso pode haver a necessidade de ser utilizado em combinação com outra ferramenta como em \cite{2008.Plata}.
+
+	\section{CANOCO}
+	Em \cite{2014.Blasius}, o autor apresenta um relato de sua proposta de utilização da Análise de Correspondência Canônica (CCA) no biomonitoramento. Neste mesmo artigo é apresentado o software CANOCO \cite{2014.Canoco} desde sua origem, descrevendo o suporte a esta técnica de ordenação e suas variantes.
+	
+	CANOCO \cite{2014.Canoco} é comercializado em versões para a plataforma MS Windows \texttrademark, atualmente se encontra na versão 5, frequentemente mencionado em artigos que fazem uso das técnicas de ordenação, como se pode observar em \cite{2011.Alcaraz}, \cite{2011.Ayuke} e \cite{2009.Wilson}.
+	
+	A entrada de dados é feita a partir de uma planilha MS Excel \texttrademark, onde diferentes matrizes de dados podem ser importados simultaneamente a partir de diferentes abas de uma mesma planilha.  No geral sua operação acontece da mesma forma que os demais softwares similares, a partir de menus \textit{pull-down} e janelas \textit{popup} onde as análises podem ser parametrizadas.
+		
+	\section{IBM SPSS}	
+	Como parte do pacote de soluções analíticas da IBM \texttrademark para o mercado corporativo, o SPSS \cite{2014.SPSS} é comumente mencionado em artigos de ecologia no apoio a análise de dados. Apesar de ter foco em análise de dados de negócio, possui suporte a muitos métodos estatísticos divididos em diferentes módulos que podem ser abstraídos para a ecologia. Como exemplo pode-se mencionar o pacote AMOS que trata de Modelo de Equações Estruturais, onde é possível estabelecer um modelo de relação de causa e efeito, e sua parametrização, e a partir disso avaliar o modelo proposto com dados reais, tanto de uma pesquisa de campo como de um negócio ou produto.
+	
+	Apesar da interface promover ao usuário uma experiência intuitiva, o conjunto de soluções analíticas SPSS \cite{2014.SPSS}, por seu foco na área do negócios, exige do pesquisador conhecimento técnico tanto da ferramenta quanto de suas funcionalidades. Desta forma, podendo adaptar sua necessidade à execução da análise correta no pacote específico. 
+	
+	O SPSS \cite{2014.SPSS} é um software comercial licenciado, e portanto, precisam ser adquiridas licenças de uso para sua operação.  Cada pacote da solução possui seus próprios requerimentos em termos de sistema operacional, o que pode, em alguns casos limitar sua instalação a um determinado ambiente. Assim como alguns dos demais softwares já mencionados, SPSS \cite{2014.SPSS} também importa as matrizes a partir de uma planilha eletrônica, bem como de arquivos texto ou outras fontes.
+		
+	\section{Comparativo}
+	Como forma de apresentar um comparativo entre os trabalhos relacionados, aqui representados por softwares de análise de dados, a tabela \ref{tab:tabelaComparativa} apresenta como cada software atende aos critérios adotados e descritos a seguir:
+	
+	\begin{itemize}
+		\item \textbf{Interface com o usuário:} No que se refere a experiência do usuário com a utilização de um software esta se apresenta mais intuitiva quando há acesso a uma interface gráfica com campos de entrada de dados devidamente descritos por seus títulos, botões para acesso a funções e as mais variadas formas de \textit{menus} para seleção de opções. Para tanto o Biomon dedica uma camada (biblioteca ou pacote) especificamente a este conceito como forma de apresentar ao usuário uma experiência com um mínimo de complexidade tecnológica, de forma que o pesquisador não precise necessariamente decorar listas de comandos para executar alguma ação ou lidar com mensagens de erro ou alerta de difícil interpretação enviados pelo software por imperícia do usuário.
+		
+		Para a avaliação da interface com o usuário serão considerados os seguintes aspectos:
+		\begin{itemize}
+			\item \textbf{Linha de comando}: para os casos onde o acesso do usuário as funções do software devem ser feitas por linha de comando em um terminal;
+			\item \textbf{Interface gráfica}: para os casos onde o acesso é feito por meio de interface gráfica com janelas, botões e menus.
+		\end{itemize}
+		
+		\item \textbf{Suporte:} A arquitetura do Biomon é dirigida para o suporte a um contexto de análise composto por dados e métodos para aplicação de técnicas estatísticas. Com o objetivo de auxiliar o pesquisador na análise de dados de campo sem que este tenha que lidar com diferentes soluções de software, cada um com seu próprio paradigma de operação. O Biomon depende apenas da elaboração dos arquivos de análise, criados pelo estatístico ou compartilhado entre os pesquisadores, para cobertura de diferentes abordagens estatísticas em um mesmo ambiente.
+		
+		Para avaliação do tipo de suporte fornecido pelos trabalhos relacionados, softwares, serão considerados os seguintes aspectos:
+		\begin{itemize}
+			\item \textbf{Contexto de análise}: os trabalhos relacionados como com suporte ao contexto de análise procuram disponibilizar métodos para aplicação de técnicas estatísticas necessárias para a análise de um conjunto de dados. Esta abordagem tem um escopo mais amplo agregando em um mesmo ambiente, sob um mesmo paradigma de utilização e interface com o usuário, diferentes ferramentas estatísticas para o apoio à interpretação de dados de campo.
+			\item \textbf{Método estatístico}: os trabalhos relacionados como com suporte a método estatístico possuem um escopo mais especialista, disponibilizando suporte a entrada e manipulação de dados para execução de um método estatístico específico. Por se tratarem de ferramentas para suporte específico sua utilização requer a combinação com outras na análise de dados em biomonitoramento.
+		\end{itemize}
+		
+		\item \textbf{Extensibilidade:} A presente proposta procura fornecer ao usuário uma experiência próxima a sua área de atuação, seja com o desenvolvimento de uma instância de software direcionada a um contexto ou propondo uma arquitetura que fomente o desenvolvimento de novas versões da referida instância com o reaproveitamento de camadas (pacotes ou bibliotecas) comuns de software. O que geralmente se observa é o desenvolvimento de soluções de software dedicadas a uma área foco ou abordagem estatística fim, onde a arquitetura geralmente é proprietária não permitindo desta forma sua extensão ou adaptação para outros fins. Apesar disso, alguns exemplos implementados sob licenças de domínio público têm sua estrutura acessível à comunidade de desenvolvedores, mas ainda assim não se apresentam devidamente preparados para serem facilmente estendidos ou adaptados para áreas diferentes das que foram originalmente designados.
+		
+		Para a avaliação da extensibilidade do software serão considerados os seguintes aspectos:
+		\begin{itemize}
+			\item \textbf{Código aberto}: para softwares onde o acesso ao código é de domínio público podendo ser gerada uma nova instância do mesmo software e aplicadas adaptações ou ajustes por terceiros, ou seja possa ser extendido;
+			\item \textbf{Código proprietário}: para softwares onde o acesso ao seu código seja controlado pela equipe de responsável ou empresa proprietária dos direitos autorais, desta forma não sendo possível o acesso direto pela comunidade de desenvolvedores para cópia ou adaptação, o que impossibilita sua livre extensão para cobertura de diferentes contextos.
+		\end{itemize}
+	\end{itemize} 
+		
+	\begin{table}[!ht]
+         	  \caption{Comparativo entre os Trabalhos Relacionados}
+           \label{tab:tabelaComparativa}
+           \centering
+           \begin{minipage}{1.0\textwidth}
+           \resizebox{\textwidth}{!}{
+           \begin{tabular*}{\textwidth}{ llll }
+           	\hline
+		\textbf{Software}			&\textbf{Interface}	&\textbf{Suporte}	&\textbf{Extensibilidade}\\
+           	\hline
+		\textbf{Multiv \& SYNCSA} 	&Linha de comando	&Método estatístico	&Código aberto\\
+		\textbf{Pct.SYNCSA para R}	&Linha de comando	&Método estatístico	&Código aberto\\
+		\textbf{Past}				&Interface gráfica	&Contexto	 de análise	&Código proprietário\\
+		\textbf{PC-ORD}			&Interface gráfica	&Método estatístico	&Código proprietário\\
+		\textbf{CANOCO}			&Interface gráfica	&Método estatístico	&Código proprietário\\
+		\textbf{IBM SPSS}			&Interface gráfica	&Método estatístico	&Código proprietário\\
+             	\hline
+           \end{tabular*}}
+           \caption*{Fonte: Elaborada pelo autor}
+           \end{minipage}
+     	\end{table}
+		
+	A interface e seus componentes por si só não podem caracterizar um software como adequado ou não para utilização pelo pesquisador, tanto isto é válido que mesmo ferramentas com operação por linha de comando ainda são acessadas e desenvolvidas para análise de dados de campo, como por exemplo Multiv \cite{2014.Multiv} e SYNCSA \cite{2014.SYNCSA}. Apesar de requerer uma curva de aprendizado maior que soluções gráficas, seu suporte a abordagens estatísticas ambientadas na área do biomonitoramento ainda se apresenta como solução para suporte a assuntos não cobertos por soluções com uma interface mais intuitiva.
+	
+	Em relação ao suporte fornecido ao pesquisador, o presente modelo procura contextualizar sua operação em uma área da pesquisa proporcionando meios para que todo suporte estatístico necessário seja adicionado de maneira dinâmica. Como resultado o pesquisador não precisa recorrer a diferentes soluções de software com diferentes interfaces, diferentes abordagens de entrada de dados e metodologias de operação. 
+	
+	Além dos aspectos práticos observados como interface com o usuário e tipo de suporte estatístico oferecido, Biomon prima por uma solução que tecnicamente possa ser estendida para diferentes abordagens de análise de dados de campo em biomonitoramento. Esta extensão compreende a aplicação de adaptações no software original para suporte, por exemplo, a uma nova distribuição de dados de entrada resultando em uma nova instância do Biomon. Apesar de algumas soluções de código livre terem sido listadas nenhuma delas apresenta como característica uma arquitetura dedicada a fomentar sua extensão com baixo impacto no software original. Detalhes do modelo proposto serão descritos nos próximos capítulos.
+
+	\chapter{Biomon}	
+	
+	Como forma de organizar a apresentação do modelo as próximas seções serão representadas pelos conceitos de \textit{blackbox} e \textit{whitebox}, estabelecidos por \cite{1943.Rosenblueth}. O primeiro se refere a execução de uma unidade sem que se saiba seu funcionamento interno, desta forma a seção Visão Geral (\ref{sec:visaoGeral}) apresenta o modelo em dividido em camadas sob uma visão global sem entrar em detalhes a respeito de sua composição interna.
+	
+	O conceito de \textit{white box} se refere a apresentação da estrutura interna do modelo que será descrito em camadas especializadas na seção Camadas do Biomon (\ref{sec:camadas}). Ainda considerando a estrutura interna do modelo a seção Arquitetura do Biomon (\ref{sec:arquitetura}) apresenta um maior nível de detalhamento e descreve a interação entre as camadas.
+	
+	\section {Visão geral}\label{sec:visaoGeral}
+	Biomon é uma proposta de software que procura contemplar sua extensibilidade em nível de desenvolvimento, como forma de proporcionar a cobertura de diferentes contextos com um mínimo de esforço. Outro aspecto considerado pelo software é sua usabilidade, onde sua operação e configuração são compartilhadas entre o especialista em estatística, aqui chamado de estatístico, e o usuário final ou pesquisador. Ambos papéis podem, sem prejuízo para a usabilidade, serem desempenhados por um usuário mais experiente ou capacitado.
+	
+	Em relação a extensibilidade esta é alcançada com um arquitetura que contempla o padrão de modelagem Modelo-Visões-Controladores {figura \ref{visão_geral}}, padrão este que teve suas primeiras referências em \cite{1979.Reenskaug} e \cite{1979.Reenskaug2}. Levando em conta o fato de que a camada do Modelo se encarregaria de disponibilizar os métodos para interpretação do arquivo elaborado pelo estatístico, e executar as técnicas estatísticas disponíveis; este software não necessitaria qualquer ajuste específico para suporte a diferentes contextos. 
+	
+	A camada de Controladores deve responder as alterações aplicadas na camada de Visões a fim de suportar eventuais novos objetos de interface ou comportamentos implementados para contemplar uma nova instância do software. A interface gráfica (GUI - \textit{Graphical User Interface}) pode fornecer ao usuário uma experiência aclimatada nos termos do contexto que o software se propõe. Desta forma diferentes áreas de pesquisa poderiam demandar desenvolvimentos na camada de Visões a fim de atender a um contexto específico, resultando em um novo software com relativamente pouco esforço.
+	
+	\begin{figure}[!ht]
+		\caption{Visão geral do Biomon}
+		\centering
+		\includegraphics[width=120mm]{Biomon_visao_geral.png}
+		\caption*{Fonte: Elaborada pelo autor}
+		\label{visão_geral}
+	\end{figure}
+	
+	A próxima seção descreve em detalhes o escopo de cada uma das camadas no modelo proposto. 
+	
+	\section{Camadas do Biomon}\label{sec:camadas}
+	
+	\subsection {Camada de Visões}
+	A camada de Visões ou interface têm papel fundamental em uma característica que Biomon procura promover que é fornecer ao usuário final, pesquisador, uma experiência ambientada nos termos da área de pesquisa que a instância do software se propõe. Outro aspecto importante presente nesta camada de desenvolvimento é o fato de que os ajustes aplicados em seus componentes têm pouco ou nenhum impacto no restante do software. Desta forma versões do mesmo software para linhas de pesquisa similares podem ser distribuídas com diferentes interfaces preservando seu funcionamento interno, o que reduz a curva de desenvolvimento destes softwares sensivelmente.
+	
+	A figura \ref{visoes} apresenta um exemplo do que se espera desta camada. No contexto do modelo proposto o usuário deve ter condições de informar seus dados de campo, a análise estatística que pretende executar e ao final ter acesso ao resultado desta análise.
+
+	\begin{figure}[!ht]
+		\caption{Camada de Visões}
+		\centering
+		\includegraphics[width=140mm]{Camada_Visoes.png}
+		\caption*{Fonte: Elaborada pelo autor}
+		\label{visoes}
+	\end{figure}
+
+	\subsection {Camada dos Controladores}
+	A camada de Controladores ( Figura \ref{controladores} ) reúne as rotinas que vão responder à interação do usuário com o software pela interface onde são acessados elementos como botões e menus. Os controladores têm a função de dar suporte as requisições destes objetos executando chamadas às rotinas descritas e implementadas na camada do modelo.
+	
+	Uma ação pode ser representada por uma chamada ou um conjunto de chamadas encadeadas. Desta forma alterações no comportamento destas ações podem ser aplicadas na camada de Controladores, sem necessariamente causar impacto no restante do código. Da mesma forma que atualizações nas camadas de Visões e modelo podem acarretar efeitos colaterais nos controladores apenas, não necessariamente no software como um todo. 
+	
+	\begin{figure}[!h]
+		\caption{Camada de Controladores}
+		\centering
+		\includegraphics[width=140mm]{Camada_Controladores.png}
+		\caption*{Fonte: Elaborada pelo autor}
+		\label{controladores}
+	\end{figure}
+	
+	\subsection {Camada do Modelo}
+	A camada do Modelo ( figura \ref{modelo} ) reúne as classes e métodos responsáveis pelo funcionamento do Biomon como proposta de software para automação da análise de dados. Nesta camada é implementado o suporte estatístico, seja de forma direta com a criação de classes de cálculo ou por chamadas à bibliotecas externas. A implementação do modelo em uma linguagem de programação como o R \cite{2014.R} apresenta como principal vantagem o suporte nativo a técnicas estatísticas. Estas técnicas não necessitariam ser implementadas no código do Biomon mas acessadas dinamicamente a medida em que sejam solicitadas pelo arquivo de análise informado pelo pesquisador.
+	
+	Também é atribuição do modelo prover rotinas para leitura e interpretação do arquivo de análise criado pelo estatístico e informado pelo pesquisador juntamente com as referências para seus dados de campo. 
+
+	A principal característica do Biomon e que o diferencia dos demais trabalhos relacionados é o fato de que as análises estatísticas, caracterizadas por passos que descrevem técnicas estatísticas, são informadas em tempo de execução na forma de um arquivo com formatação específica. Desta forma o usuário tem a possibilidade de organizar conjuntos de arquivos de análise que mais se adequam a sua necessidade em um mesmo ambiente de maneira simples e intuitiva. A formatação deste arquivo de análise vai depender muito do ambiente onde o software estiver sendo implementado. De maneira geral, o que se espera é um baixo nível de complexidade para o estatístico no momento de formatar tal arquivo, segue um exemplo:
+
+	\begin{itemize}
+		\item \textbf{Arquivo no formato CSV:} se trata de um formato comumente aplicado em troca eletrônica de informações e suportado pela maioria (senão a totalidade) dos softwares de planilhas eletrônicas, maiores detalhes podem ser obtidos a partir da sua RFC (\textit{Request For Comment})  \cite{2015.csv};
+		\item \textbf{Informações:} para a descrição dos passos a serem executados em uma análise de dados, o arquivo CSV deve conter no mínimo uma lista de funções ou métodos a serem executados bem como as referências aos seus parâmetros, para serem interpretados e executados pelo Biomon;
+		\item \textbf{Referência dinâmica:} o arquivo de análise deve permitir ao estatístico fazer referência aos dados informados pelos usuários de forma dinâmica permitindo, desta forma, que um mesmo conjunto de passos descritos em um arquivo de análise pode ser usado com diferentes conjuntos de dados.
+	\end{itemize}
+	
+	\begin{figure}[!ht]
+		\caption{Camada do Modelo}
+		\centering
+		\includegraphics[width=140mm]{Camada_Modelo.png}
+		\caption*{Fonte: Elaborada pelo autor}
+		\label{modelo}
+	\end{figure}
+
+	\section {Arquitetura do Biomon}\label{sec:arquitetura}
+		Para a arquitetura do modelo foi considerada a metodologia de descrição de modelo de software \textit{4+1 View Model of Software Architecture} \cite{1995.Kruchten} com algumas adaptações a fim de adequar o modelo do software proposto. A seguir serão apresentadas as visões propostas pela metodologia com seus componentes e a forma como estes se integram descrevendo o software modelado:
+		
+		\subsection{Visão Lógica}
+		A figura \ref{logica} apresenta a visão lógica do modelo, onde os requerimentos funcionais são apresentados. As representações ``Dados de campo'' e ``Script de análise'' são objetos que o usuário deve interagir diretamente por meio da camada de interface do software. A camada de Visões também disponibiliza meios para que o usuário execute ações que serão roteadas pela camada de Controladores para os métodos definidos na camada do Modelo que lêem e interpretam o arquivo de análise e retornam o resultado obtido.
+		
+	\begin{figure}[!ht]
+		\caption{Visão Lógica}
+		\centering
+		\includegraphics[width=120mm]{1_Logical_View.png}
+		\caption*{Fonte: Elaborada pelo autor}
+		\label{logica}
+	\end{figure}
+		
+		\subsection{Visão de Processos}
+		A figura \ref{processos} proporciona uma visão mais detalhada da interação dos componentes internos do modelo. A visão de processos considera um aspecto mais detalhado da arquitetura levando em conta requerimentos não funcionais, detalhando a forma como os métodos são distribuídos objetivando a especialização e manutenibilidade.
+		
+		A visão de processos apresenta o que se espera de funcionalidades para o Biomon, onde cada camada é implementada considerando a complexidade do seu ambiente de desenvolvimento. Basicamente a camada de Visões deve apresentar uma interface com suas ações suportadas pela camada de Controladores que por sua vez se encarrega de executar os métodos ou funções implementadas na camada de Modelo, na ordem correta.
+		
+		A camada de Modelo por sua vez fornece o suporte à interpretação do arquivo de análise informado pelo pesquisador, interpretando e executando cada passo. Ao final é retornando o resultado da execução para que possa ser armazenado e ao enviado ao pesquisador.
+		
+	\begin{figure}[!ht]
+		\caption{Visão de Processos}
+		\centering
+		\includegraphics[width=120mm]{2_Process_View.png}
+		\caption*{Fonte: Elaborada pelo autor}
+		\label{processos}
+	\end{figure}
+								
+		\subsection{Visão do Desenvolvimento}
+		A figura \ref{desenvolvimento} apresenta a modularização implementada no desenvolvimento do modelo proposto e o que se espera de cada módulo ou camada. A representação \textit{botton-up} descreve a interação do usuário e a forma como esta interação é tratada pelo software em cada uma das camadas. É possível observar que a camada \textbf{1.Visões} possui uma participação mais interativa, permitindo ao usuário executar ações que serão tratadas pela camada \textbf{2.Controladores} que por sua vez participa de maneira interativa e reativa transformando as requisições dos usuários em uma sequência de chamadas aos métodos definidos na camada \textbf{3.Modelo}, que por sua vez responde a estas chamadas.
+		
+	\begin{figure}[!ht]
+		\caption{Visão do Desenvolvimento}
+		\centering
+		\includegraphics[width=120mm]{3_Development_View.png}
+		\caption*{Fonte: Elaborada pelo autor}
+		\label{desenvolvimento}
+	\end{figure}
+				
+		\subsection{Visão Física}
+		A visão física apresenta a distribuição física da solução desenhada, cobrindo sistemas distribuídos e arquitetura de \textit{hardware}. O modelo proposto é organizado em camadas ou pacotes, por isso a figura \ref{fisica} se limita a apresentar esta distribuição. A camada de Visões agrega as funções responsáveis por fornecer ao usuário final a interface com seus artefatos gráficos como botões, \textit{menus} e campos de edição. Já os controladores são rotinas internas que fazem o roteamento das requisições executadas na interface para os métodos implementados no Modelo, que por sua vez disponibiliza as funcionalidades de leitura e interpretação do arquivo e análise bem como a execução dos passos descritos neste.
+		
+	\begin{figure}[!ht]
+		\caption{Visão Física}
+		\centering
+		\includegraphics[width=120mm]{4_Physical_View.png}
+		\caption*{Fonte: Elaborada pelo autor}
+		\label{fisica}
+	\end{figure}
+				
+		\subsection{Visão +1}
+		A visão +1 procura apresentar a integração das visões apresentadas até aqui em casos práticos também conhecidos como casos de uso. Para um melhor entendimento na forma como o pesquisador deve interagir com o software e executar suas análises, a seguir será descrita a sequencia de passos (figura \ref{plus1}) a serem executados pelo pesquisador para executar uma operação básica:
+
+		\begin{enumerate}
+			\item O pesquisador usa menus \textit{drop-down} do grupo \textbf{Matrizes de dados} para informar cada uma das matrizes que pretende utilizar na análise;
+			\item O pesquisador usa o menu \textit{drop-down} do grupo \textbf{Análise} para informar o \textit{script} com a análise que pretende executar sobre a(s) matriz(es) informada(s);
+			\item O pesquisador seleciona o botão \textbf{Execute};
+		\end{enumerate}
+		
+		Ao final o pesquisador tem o resultado da execução do último passo de sua análise apresentado no quadro logo abaixo do botão \textbf{Execute}.
+		
+	\begin{figure}[!ht]
+		\caption{Sequencia de Passos}
+		\centering
+		\includegraphics[width=120mm]{+1_Scenario_View.png}
+		\caption*{Fonte: Elaborada pelo autor}
+		\label{plus1}
+	\end{figure}
+
+	\section {Considerações sobre o capítulo}
+	O presente capítulo procurou apresentar os conceitos e objetivos do modelo proposto, o Biomon, de forma a guiar o desenvolvimento de um software para automação de análise de dados e apoio ao biomonitoramento. Foram destacadas as características que procuram diferenciar o modelo proposto das opções já disponíveis. Características estas que não se limitam a sua operação pelo usuário mas propõe um modelo de desenvolvimento que encoraja o desenvolvimento de novas versões ou instâncias do software com o objetivo de atender a diferentes áreas da pesquisa fornecendo uma interface com o usuário adaptada à sua linha de pesquisa.
+	
+	Entre as características propostas como diferenciais em relação aos softwares estatísticos disponíveis pode-se destacar o compartilhamento de responsabilidades entre o especialista em estatística, o estatístico, e o usuário final do software ou pesquisador. O que se busca com esta divisão é liberar o pesquisador do trabalho de formatar conjuntos de softwares para análise estatística a fim de executar um estudo mas se focar no que é mais importante, a interpretação dos resultados. Por outro lado o estatístico tem a oportunidade de descrever uma análise em um arquivo pré-formatado e distribuí-lo como qualquer outro arquivo eletrônico, permitindo que sua proposta de análise esteja acessível facilmente pela comunidade científica.
+	
+	Com sua arquitetura organizada em camadas, o que se propõe é um modelo de software cuja manutenção de seus componentes tenha efeito restrito a sua camada, e eventuais efeitos colaterais, sejam fruto de mudanças de requisito planejados. Da mesma forma, procura-se encorajar o desenvolvimento de novas instâncias do software para cobrir diferentes áreas de pesquisa. Sua estrutura modularizada permite a criação de um novo software a partir de uma outra instância, aplicando ajustes em sua interface sem necessariamente gerar efeitos colaterais nos mecanismos de interpretação do arquivo de análise ou execução das técnicas estatísticas.
+	
+	No próximo capítulo serão apresentadas as etapas do desenvolvimento de um protótipo em linguagem de programação  R \cite{2014.R} aplicando os conceitos descritos até então. Serão detalhados todos os aspectos de desenvolvimento, do desenho a implementação, bem como a execução de um arquivo de análise de exemplo. Como forma de validar tanto o protótipo quando o modelo proposto será executada uma série de testes de aceitação com pesquisadores em ecologia onde dados reais de pesquisa serão analisados pelo protótipo. Ao final, a execução será avaliada pelos usuários usando um formulário próprio bem como coletada a opinião deste de forma descritiva.
+	
+\chapter{PROTÓTIPO}
+	O presente capítulo tem como propósito apresentar a implementação de um protótipo, chamado Biomon app, a fim de demonstrar a aplicação prática dos conceitos apresentados até então. Este mesmo protótipo foi usado em uma atividade de avaliação de aceitação de tecnologia com a aplicação de um caso de teste e avaliação com pesquisadores da área de biomonitoramento.
+			
+		\section {Ambiente de programação}
+		A linguagem de programação escolhida para o desenvolvimento foi o R \cite{2014.R}. A escolha ocorreu principalmente pela sua arquitetura fortemente dedicada à computação estatística disponibilizando uma extensa gama de bibliotecas para execução de rotinas de análise estatística e por possuir uma comunidade ativa de desenvolvedores que implementam e suportam novos pacotes que estendem as funcionalidades do ambiente.
+ 		
+		\subsection{The R Project}
+		O ambiente de computação estatístico R \cite{2014.R} é uma derivação de código aberto de outra linguagem chamada S \cite{2014.S}. Apesar das diferenças, parte significativa dos códigos desenvolvidos em S  são interpretados pelo R  sem maiores problemas. A principal característica do R em relação ao seu predecessor é o cuidado com os gráficos gerados que resultam em um material de melhor qualidade para publicações, além do fato de sua licença uso estar sob os termos da \textit{GNU General Public License} \cite{2014.GPL} da \textit{Free Software Foundation} \cite{2014.FSF}.
+		
+		O R \cite{2014.R} tem seus interesses mantidos pela \textit{The R Foundation}, uma organização fundada pelo time responsável pelo \textit{core} do ambiente, que entre outros objetivos procura fomentar o contínuo desenvolvimento do ambiente e sua divulgação. Como ponto inicial para maiores informações a página \textit{The R Project} \cite{2014.TheR} fornece uma boa quantidade de material a respeito do ambiente, sua origem e de que forma é possível contribuir com o desenvolvimento de novos pacotes.
+				
+	\section{Arquitetura do Protótipo}
+	Conforme já foi estabelecido pelo modelo o desenho do protótipo considera o padrão de desenvolvimento em camadas Modelo-Visões-Controladores. O protótipo foi desenvolvido em três pacotes, um para cada camada, que juntos representam um instância do Biomon app para automação de análise de dados de campo. As responsabilidades e o escopo de cada camada são descritos a seguir:
+	
+	\begin{itemize}
+		\item \textbf{Camada do Modelo - Pacote analyz:} A camada do modelo contempla a mecânica principal do software. É nesta camada que são definidos os métodos de leitura e interpretação do \textit{script} de análise estatística desenvolvido pelo estatístico. O modelo contempla também o suporte às variáveis globais, descritas em \ref{sec:arqAnalise}, que fazem com que os passos descritos na análise tenham acesso as matrizes de dados informadas pelo pesquisador.
+		
+		\item \textbf{Camada de Controladores - Pacote biomonCore:} Os controladores são rotinas que farão o roteamento das requisições do usuário que por meio da interface acessa botões e menus e dispara ações para serem tratadas pelos métodos da camada do modelo.
+		
+		\item \textbf{Camada de Visões - Pacote biomon:} A camada de Visões contempla a interface do usuário com o software. Nesta camada são implementados os componentes visuais que permitirão ao usuário informar os dados de campo, escolher a análise que melhor se adequar a sua abordagem de análise e executá-la. Por se tratar da interação com o usuário final foram consideradas tanto uma interface simplificada, com poucos objetos, como termos adaptados ao contexto, como por exemplo o nome de cada uma das matrizes contempladas.
+	\end{itemize}
+								
+	\section{O Estatístico}
+	O estatístico tem participação central no ciclo de vida do Biomon app, ele ou ela é responsável por conectar a engenharia implementada com as necessidades dos pesquisadores. Para atingir tal objetivo, algumas regras são estabelecidas com o objetivo de conectar o conhecimento estatístico e a análise de dados. Conhecimentos básicos em programas de planilha eletrônica são necessários para a transposição das funções do ambiente de desenvolvimento R em linhas e colunas de um arquivo de análise CSV. Experiência em R se apresenta útil para o momento de decidir a sequência de passos a serem seguidos em uma análise.
+	
+		\subsection{Arquivo de Análise}\label{sec:arqAnalise}
+		O leiaute do arquivo de análise representa a especificação definida como forma de comunicar ao Biomon app os passos a serem seguidos para determinada abordagem estatística. O arquivo pode ser criado manualmente em um editor de texto, mas esta tarefa pode se tornar trabalhosa para a definição de análises mais elaboradas ou para funções onde são necessários um grande número de parâmetros. Por isso é recomendável a utilização de um software de planilha eletrônica para a tarefa de elaboração e geração do arquivo de análise. A maioria destes softwares (senão a sua totalidade) possuem a funcionalidade de leitura e exportação de arquivos CSV. Os ítens a seguir descrevem o que é esperado de um \textit{script} de análise:
+		
+		\begin{itemize}
+			\item \textbf{Composição:} Cada linha deve conter no mínimo quatro colunas como apresentado na tabela \ref{csv}. A primeira coluna deverá conter uma identificação, a segunda o nome de uma função do R, a terceira o tipo do parâmetro informado e na quarta o valor deste parâmetro. Não há a necessidade de informar os parâmetros do tipo caracter/\textit{string} entre aspas, todos parâmetros são convertidos para seus tipos informados em tempo de execução.
+			
+	\begin{table}[h]
+		\caption{Leiaute do \textit{Script} CSV}
+  	         \resizebox{\textwidth}{!}{
+		\begin{tabular}{l|l}
+			\hline
+			\textbf{Coluna} & \textbf{Conteúdo}\\ \hline
+			Coluna 1 Identificação & A identificação é um texto qualquer que identifica o passo descrito \\ \hline
+			Coluna 2 Função R & Função R que será executada pelo interpretador \\ \hline
+			Coluna 3 Tipo do Parâmetro & Tipo de dado que o valor informado para o parâmetro deve ser convertido \\ \hline
+			Coluna 4 Valor do Parâmetro & Valor informado para o parâmetro \\ \hline
+		\end{tabular}}
+		\caption*{Fonte: Elaborada pelo autor}
+		\label{csv}
+	\end{table}
+			
+			\item \textbf{Tipos de parâmetros suportados:} Como descrito anteriormente, cada valor informado para os parâmetros necessariamente precisa ter seu tipo de dado informado. Isso porque o interpretador do Biomon app vai converter o valor de cada parâmetro para seu tipo de dado correspondente antes de executar a função R. A tabela \ref{type} apresenta os tipos de dados suportados e suas funções correspondentes no ambiente R.
+			
+\begin{table}[h]
+\centering 
+\caption{Tipo de Dado para Parâmetros}
+	\begin{tabular}{l|l} \hline
+	\textbf{Tipo de dado} & \textbf{Função equivalente no R} \\ \hline
+	null                & as.null(variable)           \\ \hline
+	numeric             & as.numeric(variable)        \\ \hline
+	double              & as.double(variable)        \\ \hline
+	character           & as.character(variable)     \\ \hline
+	logical             & as.logical(variable)       \\ \hline
+	vector              & c(variable)                \\ \hline
+	list                & list(variable)             \\ \hline
+	\end{tabular}
+\caption*{Fonte: Elaborada pelo autor}
+\label{type}
+\end{table}
+			\item \textbf{Demais parâmetros:} Algumas funções do R requerem mais do que apenas um parâmetro. Para estes casos as colunas três e quatro devem ser repetidas com seus devidos valores, ou em outras palavras, os próximos parâmetros devem ser representados por um novo par de colunas com o tipo de dado e o valor do próximo parâmetro. Este procedimento deve ser repetido até que todos os parâmetros sejam informados.
+			\item \textbf{Valores já calculados:} Valores já calculados em passos anteriores podem ser informados como parâmetros nos passos subsequentes em novos cálculos com a utilização to \textit{token} @. Cada execução, também chamada de passo, tem seu resultado armazenado em uma tabela de resultados em uma posição correspondente a sua linha de execução no arquivo CSV. Desta forma quando um valor já calculado precisa ser informado como parâmetro em um passo seguinte o pesquisador precisa apenas informar o seguinte:
+			\begin{itemize}
+				\item Na coluna do tipo de dado deverá ser informado o \textit{token} @;
+				\item Na coluna do valor do parâmetro deverá ser informado o número da linha que gerou o resultado esperado.
+			\end{itemize}
+			Desta forma o interpretador irá informar como parâmetro para a função R um valor calculado que já possui seu tipo de dado definido, por esta razão não há a necessidade de descrever esta informação novamente.
+			\item \textbf{Tipos de dados complexos:} Algumas funções do R requerem não apenas um dado simples, mas um tipo complexo, como uma matriz, vetor ou \textit{data frame} (tipo de dado complexo do R). Para tanto o estatístico deve combinar as técnicas descritas acima, por exemplo, em um passo criar um vetor de valores e no passo seguinte informar como parâmetro o resultado do passo anterior como parâmetro. Desta forma o parâmetro informado será não apenas um valor mas um vetor de valores. 
+			\item \textbf{Variáveis globais:} Quando o estatístico estiver elaborando o \textit{script} de análise este não terá acesso aos dados do pesquisador, ou estes podem variar dependendo do conjunto de dados a ser analisado pelo mesmo arquivo de análise. Para resolver esta questão o Biomon app disponibilizará ao estatístico um conjunto de variáveis globais que são preenchidas com os dados informados pelo pesquisador em tempo de execução do software. De forma similar como foi descrito para os valores já calculados, as variáveis globais podem ser informadas como parâmetros em um passo, e isso é feito com a utilização do \textit{token} \$ como descrito a seguir:
+			\begin{itemize}
+				\item Na coluna do tipo de dado deverá ser informado o \textit{token} \$;
+				\item Na coluna do valor do parâmetro deverá ser informado o nome da variável global (veja tabela \ref{global}).
+			\end{itemize}
+			
+\begin{table}[h]
+\caption{Variáveis Globais}
+\centering
+\resizebox{\textwidth}{!}{
+	\begin{tabular}{l|l}
+	\hline
+	\textbf{Variável Global} & \textbf{Descrição} \\ \hline
+	gbl.analysis & Contém o caminho onde os \textit{scripts} de análise serão armazenados \\ \hline
+	gbl.matrices & Contém o caminho onde as matrizes de dados serão armazenadas \\ \hline
+	gbl.mAnalysis & Contém o nome do arquivo da matriz com os passos a serem executados \\ \hline
+	gbl.mAttributes & Contém o nome do arquivo da matriz com os dados de atributos \\ \hline
+	gbl.mSpecies & Contém o nome do arquivo da matriz com os dados das espécies \\ \hline
+	gbl.mSpace & Contém o nome do arquivo da matriz com os dados de espaço \\ \hline
+	gbl.mFactor & Contém o nome do arquivo da matriz Fator ou T \\ \hline
+	gbl.mEnvironment & Contém o nome do arquivo da matriz com os dados de ambiente \\ \hline
+	\end{tabular}
+}
+\caption*{Fonte: Elaborada pelo autor}
+\label{global}
+\end{table}				
+						
+			\item \textbf{Arquivo CSV:} Maiores informações a respeito deste formato podem ser obtidas em \cite{2015.csv}.
+			
+		\end{itemize}
+		
+		O resultado final de um arquivo de análise deve parecer com as figuras abaixo. O arquivo representa o cálculo da média de dois valores pré definidos.
+		
+		A figura \ref{txt} apresenta a aparência do \textit{script} de análise em um arquivo de texto puro.
+			
+			\begin{figure}[!ht]
+			\caption{Editor de Textos}
+				\centering
+				\includegraphics[width=80mm]{AnalyzFileTXT.png}
+			\caption*{Fonte: Elaborada pelo autor}
+			\label{txt}
+			\end{figure}
+			
+		A figura \ref{xlsx} apresenta a aparência do \textit{script} de análise em um software de planilha eletrônica.
+			
+			\begin{figure}[!ht]
+			\caption{Planilha Eletrônica}
+				\centering
+				\includegraphics[width=120mm]{AnalyzFileXLSX.png}
+			\caption*{Fonte: Elaborada pelo autor}
+			\label{xlsx}
+			\end{figure}
+			
+		Ambas as figuras \ref{txt} e \ref{xlsx} apresentam um exemplo de arquivo de análise para o cálculo da média entre os valores 7 e 3. Os passos descritos são os seguintes:
+		\begin{itemize}
+			\item Na primeira e segunda linhas há chamadas a uma função R que converte o valor de seu parâmetro de entrada em uma valor numérico;
+			\item Na terceira linha há a criação de uma variável complexa, um vetor, que recebe os resultados das execuções das linhas um e dois;
+			\item No R a função de cálculo da média exige como parâmetro um vetor com os números para o cálculo, é justamente o que a linha quatro representa. Nesta linha a função é chamada e como parâmetro é passado o resultado da linha três, onde anteriormente foi criado este tipo complexo;
+			\item Desta forma o Biomon retorna para a interface com o usuário o resultado do último passo da análise, ou seja, o valor calculado de média entre 7 e 3.
+		\end{itemize}
+		
+		É recomendado ao estatístico algum conhecimento em biomonitoramento e R levando-se em conta que o Biomon app está aclimatado nestes assuntos. Não há a necessidade de acesso a dados reais de pesquisa para a elaboração do arquivo de análise, apenas alguns exemplos para teste são suficientes. Esta independência é chave para o sucesso das análises elaboradas e compatibilidade com diferentes conjuntos de dados coletados em campo.
+
+		\subsection{Caso de Uso}
+		Para apresentar um caso de uso real da elaboração de uma análise a seguir são detalhados os passos para criação de um arquivo para o cálculo da matriz T como descrito por \cite{2009.Pillar}.
+		
+		Para este caso de uso será criado um arquivo de análise com o nome Sample\_Matrix\_T.csv que vai calcular a matriz T e gerar um arquivo CSV no repositório de matrizes do Biomon, deixando este disponível para outras análises. O cálculo da matriz T será descrito em uma sequência de passos no arquivo de análise e posteriormente informado pelo usuário no Biomon app juntamente com as matrizes de atributos(B) e espécies(W). O que se espera destes passos é a transposição da matriz de atributos(B) em uma nova matriz que deve ser multiplicada pela matriz de espécies(W), ao final a nova matriz (T) será apresentada como resultado e um arquivo New\_Factor\_T.csv gerado no repositório de matrizes do ambiente.
+		
+			A elaboração do arquivo de análise como apresentado na tabela \ref{analyze} considerou a versão 3.1.2 do R e será descrita a seguir:
+		
+\begin{table}[h]
+\centering
+\caption{Sample\_Matrix\_T.csv}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{llllllllllllllll}
+\hline
+ read\_attr  & read.table & \$          & gbl.mAttributes & logical    & TRUE            & character  & ``,''          & null       & null       & character  & . & character & allow.loss        & numeric    & 1          \\ \hline
+ read\_spec  & read.table & \$          & gbl.mSpecies    & logical    & TRUE            & character  & ``,''          & null       & null       & character  & . & character & allow.loss         & numeric    & 1          \\ \hline
+ matrix1     & as.matrix  & @          & 1               &            &                 &            &            &            &            &            &            &            &       & &     \\ \hline
+ matrix2     & as.matrix  & @          & 2               &            &                 &            &            &            &            &            &            &            &    & &        \\ \hline
+ transp\_mtx & t          & @          & 3               &            &                 &            &            &            &            &            &            &            &       & &      \\ \hline
+ fact\_mtx   & tcrossprod & @          & 5               & @          & 4               &            &            &            &            &            &            &            &    & &         \\ \hline
+ path        & paste0     & \$          & gbl.matrices    & character  & New\_Factor\_T.csv &            &            &            &            &            &            &            &  & &           \\ \hline
+ write       & write.csv  & @          & 6               & @          & 7               & logical    & FALSE      & logical    & FALSE      &            &            &            &        & &     \\ \hline
+ read\_spec  & read.table & @          & 7               & logical    & TRUE            & character  & ``,''          & null       & null       & character  & . & character & allow.loss         & numeric    & 1          \\ \hline
+ matrix      & as.matrix  & @          & 9               &            &                 &            &            &            &            &            &            &            &         & &    \\ \hline
+ \end{tabular}}
+\caption*{Fonte: Elaborada pelo autor}
+\label{analyze}
+\end{table}
+
+		\begin{enumerate}
+			\item \textbf{Leitura da matriz de atributos:} o primeiro passo a ser executado pelo interpretador do Biomon é a leitura dos dados da matriz de atributos informada pelo pesquisador. Para tanto o arquivo de análise deve, em sua primeira linha, descrever este procedimento. Como já foi descrito anteriormente a primeira instrução de um passo é a declaração de uma identificação, em seguida informamos o comando R ``read.table''. O primeiro parâmetro ``file'' representa o caminho e o arquivo a ser importado, neste caso a matriz de atributos, para isso deve-se informar o \textit{token} \$ como tipo de parâmetro e gbl.mAttributes como valor para o parâmetro. Desta forma em tempo de execução o interpretador envia para a função R o caminho e o arquivo informado pelo pesquisador na interface. Os demais parâmetros são definidos na sequência como:
+			\begin{itemize}
+				\item Tipo \textit{logical} valor \textit{TRUE} (parâmetro ``header'');
+				\item Tipo \textit{character} valor ``,'' (parâmetro ``sep'');
+				\item Tipo \textit{null} valor \textit{null} (parâmetro ``quote'');
+				\item Tipo \textit{character} valor ``.'' (parâmetro ``dec'');
+				\item Tipo \textit{character} valor allow.loss (parâmetro ``numerals'');
+				\item Tipo \textit{numeric} valor 1 (parâmetro ``row.names'').
+			\end{itemize}
+			
+			O resultado da execução deste passo é armazenada na primeira posição da tabela interna de resultados do Biomon app, e pode ser acessada com a utilização to \textit{token} @ no tipo de uma variável e 1 no seu valor.
+			
+			\item \textbf{Leitura da matriz de espécies:} o próximo passo é a leitura da matriz de espécies informada pelo pesquisador. O procedimento é basicamente o mesmo seguido no passo anterior sendo informada apenas uma nova identificação, e trocada a variável global que aponta para a matriz,  agora de espécies, para gbl.mSpecies, o restante se mantém o inalterado. A execução deste passo tem seu resultado armazenado na segunda posição da tabela interna de resultados, este procedimento se repete para os demais passos, da mesma forma que o acesso a estes resultados.
+			
+			\item \textbf{Dados dos atributos como tipo de dado matriz:} agora que as duas matrizes necessárias para o cálculo da matriz T já foram lidas é necessário assegurar que ambas sejam preparadas para os próximos passos. Para isso, este terceiro passo vai converter o resultado obtido com o passo 1 (leitura da matriz de atributos) em dado do tipo matriz. A descrição deste passo segue o mesmo procedimento adotado anteriormente, informa-se uma identificação, um comando R que neste caso será ``as.matrix'' e um único parâmetro necessário, neste caso o resultado da linha 1, ou  seja, tipo de parâmetro @ valor 1.
+			
+			Desta forma o interpretador executa o comando ``as.matrix'' no R enviando como parâmetro o valor lido no passo 1 e armazena este novo resultado na terceira posição da tabela interna de resultados.
+			
+			\item \textbf{Dados das espécies como tipo de dado matriz:} Assim como no passo anterior, a leitura da matriz das espécies precisa ter seu tipo de dado convertido para matriz. O procedimento é basicamente o mesmo do passo anterior apenas trocando-se a linha da tabela de resultados a ser lida para 2 (resultado do segundo passo).
+			
+			\item \textbf{Transpor matriz de atributos:} Agora que a matriz de atributos foi devidamente lida e teve seu tipo de dado convertido para matriz, é possível executar a sua transposição. Para tanto será utilizada a função ``t'' e o único parâmetro a ser informado é o resultado da linha três. Desta forma teremos uma nova matriz na quinta posição da tabela interna de resultados.
+			
+			\item \textbf{Multiplicar matrizes:} De posse de todas as informações necessárias chega o momento de executar o cálculo da matriz T. Para isso será usada a função ``tcrossprod'', como primeiro parâmetro será informada a posição na tabela interna de resultados da matriz de atributos transposta (posição cinco) e como segundo parâmetro a matriz de espécies (posição dois).
+
+			\item \textbf{Caminho e arquivo da nova matriz:} Como proposta para este arquivo de análise ficou definido que além do cálculo, um novo arquivo com a matriz T recém calculada seria disponibilizada no repositório de matrizes do Biomon app para futuras análises. O primeiro passo para este objetivo é definir um caminho e nome de arquivo para que os dados sejam escritos fisicamente no disco do computador do pesquisador. A função R a ser chamada nesta situação será ``paste0'' que concatenará seus parâmetros em uma única \textit{string}. O primeiro parâmetro será o caminho do repositório onde o Biomon app busca suas matrizes de dados, ou seja, tipo de parâmetro \$ valor gbl.matrices. Para o nome do arquivo será definido o tipo de parâmetro \textit{character} e o valor New\_Factor\_T.csv.
+			
+			\item \textbf{Escrita do novo arquivo:} A escrita física da nova matriz no repositório de matrizes será executada pela função ``write.csv'' com os seguintes parâmetros:
+			\begin{itemize}
+				\item Tipo @ valor 6 (parâmetro ``X'');
+				\item Tipo @ valor 7 (parâmetro ``file'');
+				\item Tipo \textit{logical} valor \textit{FALSE} (parâmetro ``append'');
+				\item Tipo \textit{logical} valor \textit{FALSE} (parâmetro ``quote'').
+			\end{itemize}
+			
+			Desta forma a matriz T que acabou de ser calculada (posição 6 na tabela interna de resultados) será escrita em um novo arquivo no repositório de matrizes do Biomon app (posição 7 da tabela interna de resultados ) e estará disponível para outras análises que o pesquisador venha a executar bastando apenas informá-la na interface.
+			
+			\item \textbf{Leitura da nova matriz:} Como já foi mencionado anteriormente ao final da execução de uma análise é apresento ao usuário o resultado da execução do último passo de uma análise. Por este motivo e para garantirmos que o arquivo da matriz T foi corretamente criado no disco do computador do pesquisador, este passo vai ler o arquivo criado para que o próximo passo o apresente como resultado final da execução da análise atual. Para isso, este passo seguirá os mesmos procedimentos descritos nos passos um e dois apenas substituindo a referência às varáveis globais (tipo \$ valor gbl.mAttribute ou tipo \$ valor gbl.mSpecies) por tipo @ valor 7, desta forma importando os dados da matriz T.
+			
+			\item \textbf{Apresentação do resultado:} Com os dados da matriz T corretamente lidos a partir do novo arquivo físico, é possível executar um último passo que fará com que o Biomon app apresente ao pesquisador o resultado final da execução do arquivo de análise escolhido sobre as matrizes de dados informadas. Este passo executa a função ``as.matrix'' tendo como parâmetro único o resultado da execução do passo 9, ou seja, tipo @ valor 9.
+			
+		\end{enumerate}
+					
+	\section{O Pesquisador}\label{sec:pesquisador}
+	O pesquisador tem o papel de usuário do software. O principal objetivo do Biomon app é auxiliar o pesquisador na análise dos dados coletados em campo. Considerando que a maior parte do trabalho complexo já foi coberto tanto pelo estatístico com seu arquivo de análise quanto pelo software com sua lógica interna, resta ao pesquisador interagir com a interface informando os dados e a análise a ser executada. 
+	
+	Há diferentes técnicas que podem ser utilizadas para coletar, organizar e armazenar os dados de campo. Para o Biomon considerou-se o que está descrito em \cite{2009.Pillar}.
+	
+		\subsection{Matrizes de Dados}
+		A tabela \ref{matrices} apresenta as matrizes de dados suportadas pelo software, o pesquisador deve considerar esta distribuição quando informar seus dados de campo no Biomon app.
+		
+\begin{table}[h]
+\caption{Matrizes de Dados de Campo}
+\begin{tabular}{l|l|l|l} \hline
+{\textbf{Matriz}} & \textbf{Linha}         & \textbf{Coluna}   & {\textbf{Conteúdo}} \\ \cline{2-3}
+                             & \textbf{Observação} & \textbf{Variáveis} &  \\ \hline
+Atributos (B) & Espécies & Atributos & \begin{tabular}[c]{@{}l@{}}Valores quantitativos ou \\ Presença/Ausência\end{tabular}\\ \hline
+Espécies (W) & Unidade Amostral & Espécies & \begin{tabular}[c]{@{}l@{}}Valores quantitativos ou \\ Presença/Ausência\end{tabular}\\ \hline
+Espaço (S) & Unidade Amostral & Coordenadas Geográficas & \begin{tabular}[c]{@{}l@{}}Valores reais representando \\ uma coordenada geográfica\end{tabular}\\ \hline
+Fator (T) & Atributos & Espécies & \begin{tabular}[c]{@{}l@{}}T = B' * W \\ ( B transposta multiplicada por W)\end{tabular}\\ \hline
+Ambiente (E) & Unidade Amostral & Variáveis Ambientais & Valores quantitativos \\ \hline
+\end{tabular}
+\caption*{Fonte: Elaborada pelo autor}
+\label{matrices}
+\end{table}
+		
+		Com o propósito de estabelecer um protocolo entre o que o pesquisador informar e o que o estatístico espera como matriz de dados defini-se que a primeira linha descreve cada coluna e a primeira coluna descreve cada linha, como na figura \ref{template}.
+		
+	\begin{figure}[!ht]
+		\caption{Modelo de Matriz de Dados}
+		\centering
+		\includegraphics[width=120mm]{DataMatrix.png}
+		\caption*{Fonte: Elaborada pelo autor}
+		\label{template}
+	\end{figure}
+		
+		\subsection{Interface Gráfica}
+		Levando em conta a distribuição de responsabilidades proposta, que considera a área de conhecimento de cada um envolvido na operação do Biomon app é esperada baixa complexidade tecnológica e poucas interações para a operação do software pelo pesquisador. É tarefa da interface do Biomon app atender a este requisito, como apresentado na figura \ref{gui}.
+		
+	\begin{figure}[!ht]
+		\caption{Interface do Biomon app}
+		\centering
+		\includegraphics[width=120mm]{biomonGUI.png}
+		\caption*{Fonte: Elaborada pelo autor}
+		\label{gui}
+	\end{figure}		
+		
+		A partir da interface com o usuário acima é possível, com poucos passos, informar as matrizes de dados e o arquivo de análise bem como executar uma análise. Caso não tenham sido informados anteriormente tanto os dados de campo quanto os arquivos de análise podem ser informados ao Biomon por meio de botões específicos agrupados na área intitulada \textit{Upload Files}. Para a execução de uma análise o usuário deve fazer uso dos menus drop-down informando a combinação correta de arquivo de análise e dados de campo e pressionar o botão \textit{Execute}. Ao final o resultado é apresentado no quadro abaixo do botão de execução da análise.
+		
+		\subsection{Caso de Uso}
+		Com o objetivo de apresentar uma execução real do Biomon app a seguir será apresentado um caso de uso com uma descrição detalhada de cada etapa. 
+
+		Para a instalação e operação do software é recomendável algum conhecimento em R, pois a operação e mensagens de alerta ou erro ao usuário seguem o padrão da linguagem. A partir de um ambiente R com acesso a internet, o pesquisador deve instalar os três pacotes que compõem o software, para isso algumas dependências precisam ser atendidas previamente.
+		
+		Para a instalação das dependências o pesquisador deve executar os seguintes comandos R:
+		\begin{description}
+			\item[] install.packages(``devtools'')
+			\item[] install.packages(``shiny'')
+		\end{description}
+		
+		Com as dependências devidamente instaladas ou atualizadas a instalação do Biomon app é feita a partir dos seguintes comandos:
+		\begin{description}
+			\item[] devtools::install\_github(``rbuhler/analyz'')
+			\item[] devtools::install\_github(``rbuhler/biomonCore'')
+			\item[] devtools::install\_github(``rbuhler/biomon'')
+		\end{description}
+		
+		Após a instalação dos pacotes e suas dependências o software está pronto para ser executado, para isso o pesquisador deve executar os seguintes comandos:
+		\begin{description}
+			\item[] library(``biomon'')
+			\item[] biomon()
+		\end{description}
+		
+		Com a execução dos passos descritos acima a interface do Biomon app, desenvolvida no R em HTML,  é apresentada em um navegador de internet como na figura \ref{gui}. A interface do usuário é composta pelos seguintes objetos:
+		
+		\begin{description}
+			\item[-] Botões de \textit{Upload} (figura \ref{upload}), usados para carregar tanto os arquivos de análise quanto as matrizes de dados para o contexto do software, desta forma estando disponíveis para a execução de uma análise;
+
+		\begin{figure}[!ht]
+			\caption{Botões de \textit{Upload}}
+			\centering
+			\includegraphics[width=100mm]{biomonGUI_Repositories.png}
+			\caption*{Fonte: Elaborada pelo autor}
+			\label{upload}
+		\end{figure}
+			
+			\item[-] Drop-down menus do grupo \textit{Analysis} (figura \ref{ddownAnalysis}), usados para o pesquisador informar qual a análise será executada;
+			
+		\begin{figure}[!ht]
+			\caption{Drop-down menu grupo \textit{Analysis}}
+			\centering
+			\includegraphics[width=50mm]{biomonGUI_Analysis.png}
+			\caption*{Fonte: Elaborada pelo autor}
+			\label{ddownAnalysis}
+		\end{figure}
+			
+			\item[-] Drop-down menus do grupo \textit{Data Matrices} (figura \ref{ddownMatrices}), usados para o pesquisador informar qua(is) matriz(es) poderão ser utilizada(s) na análise;
+			
+		\begin{figure}[!ht]
+			\caption{Drop-down menu grupo \textit{Data Matrices}}
+			\centering
+			\includegraphics[width=50mm]{biomonGUI_Data.png}
+			\caption*{Fonte: Elaborada pelo autor}
+			\label{ddownMatrices}
+		\end{figure}
+			
+			\item[-] Botão \textit{Execute} (figura \ref{execute}), usado para o pesquisador executar a análise escolhida sobre as matrizes de dados informadas. Na área logo abaixo do botão será apresentado o resultado do último passo executado pelo interpretador ou alguma mensagem informando o usuário que algo não aconteceu como esperado.
+			
+		\begin{figure}[!ht]
+			\caption{Botão \textit{Execute}}
+			\centering
+			\includegraphics[width=60mm]{biomonGUI_Execute.png}
+			\caption*{Fonte: Elaborada pelo autor}
+			\label{execute}
+		\end{figure}
+		\end{description}
+		
+	\section{Discussão}
+			A descrição do protótipo reforça a importância da participação do estatístico na usabilidade do Biomon app. O quanto mais funcional e bem formulado o arquivo de análise for mais valor este agrega à tarefa de análise de dados. É possível observar com isso, que a complexidade está mais concentrada na criação do arquivo de análise, tarefa do estatístico, do que na operação do software feito pelo pesquisador. Desta forma, como estabelecido pelo presente trabalho, o pesquisador não precisa investir tempo e esforço lidando com complexidades tecnológicas ou elaborando metodologias para execução de análises e pode focar no que é mais importante, a interpretação dos resultados.
+	
+	\section{Código}
+	A implementação do Biomon app em R fez uso de dois pacotes que estendem as funcionalidades da linguagem R. Para a camada do Modelo foi utilizado o pacote \textbf{method} que permite o desenvolvimento do código orientado a objetos. A classe Analyz (figura \ref{classe}) define e implementa todos os métodos responsáveis pela leitura e interpretação do \textit{script} de análise bem como o acesso as matrizes informadas pelo usuário na interface. Bem mais simples, a camada de Controladores possui apenas uma rotina que responde ao clique no botão \textit{Execute} da interface. Esta rotina instancia a classe Analyz e executa a chamada de seus métodos de forma a executar um procedimento de análise. Para a camada de Visões o pacote \textbf{shiny} proporciona um ambiente de desenvolvimente de interface gráfica HTML no R. Desta forma com pouco esforço de desenvolvimento é possível ter um \textit{look and feel} intuitivo para a utilização do Biomon app.
+	
+	\begin{figure}[!ht]
+			\caption{Diagrama da Classe Analyz}
+			\centering
+			\includegraphics[width=60mm]{Class_diagram.png}
+			\caption*{Fonte: Elaborada pelo autor}
+			\label{classe}
+		\end{figure}
+	
+		O caso de uso do pesquisador descrito no capítulo anterior é representado pelo diagrama de sequência a seguir (\ref{sequencia}). Com ele é possível observar a interação que usuário tem com a interface e o processo executado com o clique no botão \textit{Execute} da interface. 
+
+		\begin{figure}[!ht]
+			\caption{Diagrama de Sequência}
+			\centering
+			\includegraphics[width=180mm]{Sequence_diagram.png}
+			\caption*{Fonte: Elaborada pelo autor}
+			\label{sequencia}
+		\end{figure}
+
+\chapter{AVALIAÇÃO}
+	
+	Como descrito em \cite{1993.Davis} foi observado que a falta de testes de aceitação de software tem sido fator determinante para o fracasso de projetos de sistemas de informação. Geralmente o desenvolvimento focado em desempenho acaba por ser afetado pela rejeição dos usuários em utilizar estes sistemas. Considerando a premissa de que o teste de aceitação tem papel fundamental na identificação de fatores de sucesso ou fracasso de sistemas de informação o presente modelo de software Biomon será avaliado quanto sua aceitação por pesquisadores da área do biomonitoramento. 
+		
+	\section {Metodologia}
+	 A metodologia de avaliação aplicada ao modelo proposto foi a execução de um protótipo e avaliação por pesquisadores. Aos pesquisadores convidados foram enviados um documento descrevendo um caso de teste (Apêndice \ref{sec:caso_teste}) e um formulário de avaliação (Apêndice \ref{sec:avaliacao}). Os pesquisadores de posse dos passos a serem seguidos puderam avaliar todas as etapas de um caso real, desde a instalação do Biomon no ambiente R até sua execução, como descrito no documento fornecido e também executando testes exploratórios de maneira livre. Ao final os pesquisadores eram convidados a informar seu grau de concordância em relação a um conjunto de afirmações.
+	 
+	 Para o teste de aceitação foram convidados seis pesquisadores com diferentes perfis acadêmicos como descrito na tabela \ref{pesquisadores}.
+	 
+\begin{table}[h]
+\caption{Pesquisadores Entrevistados}
+\label{pesquisadores}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{l|l|l}
+\hline
+\textbf{Identificação} & \textbf{Perfil acadêmico}   & \textbf{Atuação}                           \\ \hline
+Entrevistado 1         & Doutoranda em Ecologia       & Doutoranda bolsista na UFRGS               \\ \hline
+Entrevistado 2         & Mestranda em Qualidade Ambiental & Mestranda em Qualidade Ambiental           \\ \hline
+Entrevistado 3         & Doutoranda Ecologia            & Doutoranda bolsista na UFRGS               \\ \hline
+Entrevistado 4         & Mestre em Ecologia             &                                            \\ \hline
+Entrevistado 5         & Doutora em Ecologia            & Professora na UFRGS                        \\ \hline
+Entrevistado 7         & Doutora em Ciências Ambientais & Pesquisadora da Fundação Zoobotânica do RS \\ \hline
+\end{tabular}}
+\caption*{Fonte: Elaborada pelo autor}
+\end{table}
+
+	\section{Caso de Teste}	 
+	Todos os pesquisadores foram convidados a participar do teste de aceitação de software e receberam o mesmo conjunto de documentos por e-mail. Durante a execução do caso de teste o pesquisador não foi acompanhado \textit{in loco}, eventuais dúvidas técnicas foram resolvidas por meio eletrônico (e-mail). Desta forma o entrevistado teve condições de avaliar a interface e usabilidade do software procurando por respostas no próprio software para eventuais impedimentos ou dúvidas.
+
+	O caso de teste (Apêndice \ref{sec:caso_teste}) aplicado no teste de aceitação descreve ao entrevistado todos os passos necessários para a operação do Biomon, começando com uma breve descrição a respeito das matrizes de dados, passando pela instalação do software no ambiente R e finalmente a descrição de um caso de teste.
+	
+	\section{Questionário}
+	Para a elaboração do questionário (Apêndice \ref{sec:avaliacao}) foi adotado o Modelo de Aceitação de Tecnologia (\textit{TAM - Technology Acceptance Model}) construído sobre os princípios descritos em \cite{1975.Fishbein} e publicado em \cite{1989.Davis}. O modelo proposto procura prever e explicar a aceitação de sistemas de informação tomando como base dois aspectos considerados fundamentais para sua definição, a percepção do usuário em relação a facilidade de uso e utilidade da solução sob avaliação.
+	
+	A percepção do usuário de que o sistema em questão agrega algum benefício ao seu trabalho caracteriza o aspecto utilidade percebida. Já outra característica a ser considerada, e que tem impacto na aceitação do usuário, é a percepção do esforço necessário na operação do sistema ou software, ou facilidade de uso, atributo este que apresenta ter peso suficiente para sobrepor a percepção de utilidade percebida na decisão de aceitação do software pelo usuário.
+	
+	Para a avaliação do Biomon foram elaboradas afirmações (tabela \ref{likert}) que os pesquisadores classificaram usando a escala Lickert \cite{1932.likert}, onde são oferecidas 5 pontos de avaliação para as afirmações que variavam de \textbf{1. Concordo  totalmente até  5. Discordo totalmente}.
+	
+% Please add the following required packages to your document preamble:
+% \usepackage{multirow}
+\begin{table}[h]
+\caption{Afirmações de ítens Likert}
+\label{likert}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{l|l|l}
+\hline
+\textbf{Grupo}                                & \textbf{Questão} & \textbf{Afirmação}                                                                                                                                          \\ \hline
+\multirow{5}{*}{\textbf{Facilidade de Uso}}   & 1                & Compreendi a função de todos os elementos da tela sem ajuda externa.                                                                                        \\ \cline{2-3} 
+                                              & 2                & A interface disponibiliza todas as funções necessárias para a operação do software.                                                                         \\ \cline{2-3} 
+                                              & 3                & Pude seguir o caso de teste sem dificuldades.                                                                                                               \\ \cline{2-3} 
+                                              & 4                & De maneira geral achei o Biomon fácil de utilizar.                                                                                                          \\ \cline{2-3} 
+                                              & 5                & Achei a interface simples e agradável.                                                                                                                      \\ \hline
+\multirow{5}{*}{\textbf{Utilidade Percebida}} & 6                & \begin{tabular}[c]{@{}l@{}}Considerando a forma como analiso meus dados de campo considero que o Biomon\\ pode tornar meu trabalho mais fácil.\end{tabular} \\ \cline{2-3} 
+                                              & 7                & Eu substituiria a maneira como faço minhas análises para utilizar apenas o Biomon.                                                                          \\ \cline{2-3} 
+                                              & 8                & Gostei da maneira como a proposta separa os papeis do estatístico e do pesquisador.                                                                         \\ \cline{2-3} 
+                                              & 9                & \begin{tabular}[c]{@{}l@{}}Considero importante a possibilidade de facilmente compartilhar os arquivos de\\ análise.\end{tabular}                           \\ \cline{2-3} 
+                                              & 10               & \begin{tabular}[c]{@{}l@{}}Com o Biomon eu posso economizar tempo executando as análises e investir mais na\\ interpretação dos resultados.\end{tabular}    \\ \hline
+\end{tabular}}
+\caption*{Fonte: Elaborada pelo autor}
+\end{table}
+	
+	Embora não tenha ficado explícito aos pesquisadores convidados as perguntas foram formuladas em dois grupos com objetivos distintos. O primeiro grupo procurou avaliar a experiência do entrevistado na utilização do software e sua impressão quanto a interface do protótipo.
+	
+	Já o segundo grupo de afirmações tratou de questões mais práticas com por exemplo a substituição dos procedimentos atuais de análise de dados pela utilização do software representado pelo protótipo.
+	
+	Depois de executados os testes e respondidas as avaliações, os resultados foram compilados e são apresentados a seguir.
+	
+	\section{Facilidade de Uso}
+	Por facilidade de uso entende-se \cite{2014.Marangunic} a impressão que o usuário tem, quando usando o software, de que sua operação será livre de esforço, que acontecerá de forma mais natural e intuitiva possível. Procurando avaliar esta impressão dos pesquisadores convidados, o grupo de perguntas deste aspecto procurou questionar o usuário quanto a sua experiência seguindo os passos do caso de teste.
+	
+	A figura \ref{uso_geral} apresenta a compilação das respostas da avaliação feita pelos pesquisadores quando da execução dos passos do caso de teste. É possível observar que aproximadamente dois terços (62\%) das respostas corroboram para o fato de que a percepção de facilidade de uso é clara. Outro aspecto que aponta para um resultado bastante positivo é o de que no total apenas 3\% das respostas afirmam discordar parcialmente com o que é afirmado.
+	
+		\begin{figure}[!ht]
+			\caption{Facilidade de Uso Avaliação}
+			\centering
+			\includegraphics[width=80mm]{TAM_uso.png}
+			\caption*{Fonte: Elaborada pelo autor}
+			\label{uso_geral}
+		\end{figure}
+
+	Dentre as cinco questões ilustradas na figura \ref{uso_detalhe} pode-se destacar as questões dois e três como pontos de atenção pois apresentam índices muito altos, o que sinaliza um certo desacordo com a realidade do pesquisador. Estas questões se referem a informações de ajuda na interface e facilidade na execução dos passos do caso de teste.
+	
+	As avaliações destas questões apontam para a necessidade de um maior refino na elaboração da interface do software para que na sua execução as situações onde possam haver dúvidas o usuário tenha condições de resolvê-las com a ajuda do próprio software.
+	
+		\begin{figure}[!ht]
+			\caption{Facilidade de Uso Questões}
+			\centering
+			\includegraphics[width=130mm]{TAM_uso_questoes.png}
+			\caption*{Fonte: Elaborada pelo autor}
+			\label{uso_detalhe}
+		\end{figure}
+
+	\section{Utilidade Percebida}
+	A utilidade percebida se caracteriza \cite{2014.Marangunic} pelo nível de confiança que o usuário tem de que o software em uso pode efetivamente agregar valor ao seu trabalho. Desta forma as afirmações deste grupo procuraram colocar o protótipo e sua execução no contexto de análise de dados do pesquisador convidado, para que este possa avaliar de maneira fiel o cenário executado.
+	
+	É possível observar na figura \ref{utilidade_geral} que mais de dois terços (69\%) das afirmações foram consideradas totalmente alinhadas com a realidade do entrevistado. Já os resultados de discordância em relação as afirmações somam apenas 7\% do total geral.
+	
+		\begin{figure}[!ht]
+			\caption{Avaliação da Utilidade Percebida}
+			\centering
+			\includegraphics[width=80mm]{TAM_utilidade.png}
+			\caption*{Fonte: Elaborada pelo autor}
+			\label{utilidade_geral}
+		\end{figure}
+
+	Dentre as cinco questões ilustradas na figura \ref{utilidade_detalhe} pode-se destacar as questões sete e oito por apresentam índices discrepantes em relação ao restante do conjunto, o que sinaliza uma falta de consenso a respeito.
+	
+	A questão sete trata da possibilidade de substituição total da maneira como o pesquisador faz suas análises de dados de campo pela proposta apresentada. É de se esperar que esta questão receba índices mais elevados por se tratar da avaliação de um protótipo com poucas funcionalidades, mas ainda assim não houve qualquer indicação de rejeição absoluta a ideia. 
+	
+	A questão oito trata da separação dos papeis do estatístico e do pesquisador, novamente é possível observar que não há consenso. Apesar de boa parte dos entrevistados terem concordado totalmente com a afirmação um pesquisador assinalou para uma discordância parcial. Um fator que pode explicar os índices desta questão é o nível de conhecimento estatístico que o pesquisador possui, o que o aproxima ou afasta do papel do estatístico. Desta forma o fato de não haver mais a necessidade de lidar diretamente com a elaboração das análises é interpretado como algo que agregaria valor ao seu trabalho como pesquisador. Por outro lado, quando há um maior conforto na elaboração das análises a divisão dos papeis pode representar uma perda do controle ou da possibilidade de refino dos passos a serem executados.
+	
+		\begin{figure}[!ht]
+			\caption{Utilidade Percebida Questões}
+			\centering
+			\includegraphics[width=130mm]{TAM_utilidade_questoes.png}
+			\caption*{Fonte: Elaborada pelo autor}
+			\label{utilidade_detalhe}
+		\end{figure}
+
+	Ao final da avaliação os pesquisadores eram convidados a deixarem algum comentário textual a respeito da experiência. Algumas das observações feitas pelos entrevistados são reproduzidas a seguir:
+	\begin{itemize}
+			\item \textit{``Acho que o Biomon facilitará em muito minhas análises, para isso preciso dominar melhor o programa. Até aqui achei prático e de fácil utilização.'}
+			
+		\item \textit{``Considero a experiência promissora e interessante. A possibilidade de interagir mais e melhor com um estatístico profissional é realmente animadora. A cada dia novas e desafiadoras metodologias surgem e a análise dos dados, ou melhor, a simples compreensão estatística demanda muito tempo. Isto, muitas vezes, nos faz desistir de uma análise nova, ficando com aquelas que já conhecemos. Neste sentido, uma relação mais próxima com um estatístico e, ao mesmo tempo, com uma interface amigável de análise pode de fato contribuir muito com o progresso da pesquisa e com o aumento e a qualidade das publicações geradas com dados coletados em campo. Acredito que, com um prazo maior de contato entre ambos (estatístico e o pesquisador) possa de fato conduzir a interessantes resultados e análises.''}
+		
+	\end{itemize}
+	
+	Os dois comentários acima descrevem diferentes pontos de vista em relação a experiência vivenciada pelos pesquisadores durante a execução do caso de teste, mas cobrem os objetivos propostos. Enquanto que o primeiro comentário abordada as características de praticidade e facilidade de uso o segundo comentário faz referência a uma das formas propostas pelo Biomon para atender as referidas características. Com a separação dos papeis de pesquisador e estatístico a complexidade das análises é compartilhada com entre o pesquisador que possui a necessidade e o estatístico que possui o conhecimento técnico que possibilita a elaboração de soluções para atender a estas necessidades.
+
+\chapter{CONSIDERAÇÕES FINAIS}
+	O Biomon é uma proposta de modelo de software para automação de análise de dados de campo em biomonitoramento. O modelo apresentado procura contemplar ambos apoio ao pesquisador na execução de suas análises e uma arquitetura para o fomento ao desenvolvimento de novas instâncias de software com pouco esforço e impacto limitado. 
+	
+	Para sua avaliação um protótipo foi implementado nos moldes da arquitetura proposta o que demostrou sua viabilidade e permitiu uma apresentação prática da aplicação do conceito de desenvolvimento em camadas MVC (\textit{Model-Views-Controllers}) . Também como parte da avaliação do modelo proposto foram executados casos de teste com seis pesquisadores convidados. 
+	
+	\section{Conclusão}
+	Para o apoio ao pesquisador o modelo propõe uma divisão de responsabilidades quando da formatação de um processo de análise de dados. Esta análise é composta por passos que descrevem a execução de técnicas estatísticas sobre os dados de campo disponibilizados pelo pesquisador. O Biomon estabelece que esta definição seja feita por um estatístico, considerando que esta é a sua área de \textit{expertise}. Como resultado desta atribuição é gerado um arquivo \textit{script} com instruções que são posteriormente interpretadas e executadas pelo software.
+	
+	Ao pesquisador é atribuída a responsabilidade de informar ao software suas matrizes de dados de campo juntamente com o \textit{script} elaborado pelo estatístico. Desta forma o software é capaz de executar os passos descritos pelo estatístico sobre os dados de campo do pesquisador. Para a operação do software se espera uma baixa complexidade tecnológica, ou seja, a interface deve fornecer ao usuário final poucas opções de objetos de interface, limitando as ações a informação dos requisitos mínimos necessário para a execução do arquivo de análise, este sim cobrindo parte significativa da complexidade.
+	
+	O modelo de software apresentado é dividido em camadas que organizam o código de maneira contextual. Todo o tratamento da interface é organizado na camada de Visões, desta forma implementações neste escopo ficam, em grande parte, limitadas a este contexto. Já o tratamento das ações e comportamentos implementados na interface são tratados na camada de Controladores, que se encarrega de atender as requisições da interação humana com o software. As funcionalidades disponibilizadas pelo software são modeladas e implementadas na camada de Modelo. Todo seu comportamento e funcionalidades são disponibilizadas para as demais camadas a partir desta camada.
+	
+	Com esta divisão é possível aplicar alterações na interface, procurando atender a uma nova área da pesquisa sem que as demais camadas sejam afetadas. Da mesma forma que um comportamento pode ser alterado agregando ao software novas possibilidades sem que necessariamente sua interface seja afetada. 
+	
+	A partir do protótipo foi possível aplicar testes de aceitação de software com pesquisadores da área de biomonitoramento. A organização destes testes teve como estrutura o convite de seis testadores com perfil de pesquisadores em biomonitoramento e a elaboração de um caso de teste descrevendo os requisitos necessários, instalação e execução de uma análise no protótipo. O material com o passo a passo foi enviado para o pesquisador juntamente com um questionário para que este pudesse relatar sua experiência. Ao final dos testes foi possível observar pontos de melhoria e áreas onde as expectativas foram atendidas.
+	
+	A metodologia do questionário aplicado procurou cobrir dois aspectos da percepção dos usuários de software quando da sua utilização, a facilidade de uso e sua utilidade. A compilação dos resultados mostrou bons índices de aceitação onde por volta de dois terços das respostas foram de total acordo com o afirmado, para ambos os aspectos.
+	
+	Para a facilidade de uso observou-se pontos de atenção no que se refere a interface do software com o usuário, onde informações devem ser disponibilizadas a fim de guiar o pesquisador a respeito dos passos a serem tomados tanto na sua utilização quanto na tomada de decisões em caso de problemas.
+	
+	Os resultados da percepção de utilidade do software apontam para uma preocupação ou cuidado quando da sugestão de troca da forma como o trabalho do pesquisador é feito. Em primeiro lugar pela divisão de tarefas entre o pesquisador e o estatístico, que demandaria um maior alinhamento e a transferência de parte do trabalho da análise para este. E em segundo lugar a substituição total da forma como as análises são feitas pela utilização do Biomon apenas. Neste aspecto o que os resultados apresentam confirmam o que informalmente foi percebido. Em conversas com os pesquisadores foi possível perceber que, quanto mais confortável o pesquisador se sente assumindo todas as etapas da análise, mais resistente ele se coloca em relação às mudanças propostas neste processo.
+	
+	O que se pode concluir é que os objetivos foram alcançados e que as necessidades observadas são reais. Quando da avaliação do critério de facilidade de uso, ficou evidente a questão de que a interface se apresenta como fator determinante para o sucesso do software e este é um assunto tratado pelo modelo proposto. Em relação às questões de utilidade percebida, foi possível observar durante e logo após os testes de que a contribuição é mais evidente para usuários menos desenvoltura no tratamento com a tecnologia e estatística.
+
+	\section{Contribuições}
+	A proposta, implementação e teste do modelo de software Biomon colocou em discussão a forma como são feitas as análises estatísticas no âmbito do biomonitoramento e propôs melhorias na relação dos pesquisadores com a tecnologia. Estas propostas de melhorias foram baseadas em percepções que se provaram reais a partir da avaliação feita pelos próprios pesquisadores no questionário de avaliação do caso de teste.
+	
+	O que foi proposto não se limita apenas a demonstrar uma solução tecnológica, com a apresentação de uma interface com baixa complexidade tecnológica e mecanismos otimizados de software, mas também uma nova relação no procedimento de elaboração destas análises, atribuído responsabilidades ao estatístico na descrição dos passos a serem seguidos e elaboração de um \textit{script} para posterior utilização pelo pesquisador, que por sua vez deve informar ao software esta informação juntamente com seus dados de campo.
+	
+	Para o fomento ao desenvolvimentos de novas instâncias do Biomon, como forma de atender as mais variadas áreas da pesquisa em biomonitoramento, foi implementado um protótipo que se apresentou flexível como esperado. Durante o desenvolvimento a manutenção e eventuais ajustes no código ficaram isolados nas camadas propostas gerando pouco ou nenhum efeito colateral nas demais camadas. Desta forma tanto o desenvolvimento de novos softwares quanto sua manutenção se beneficiam desta distribuição.
+
+	A tabela \ref{tab:contribuição} apresenta novamente os trabalhos relacionados, bem como os critérios de comparação adotados. Ao final da tabela é possível observar que o modelo proposto, o Biomon, possui a combinação considerada ideal aliando a interface gráfica e cobertura de um contexto de pesquisa. Estas duas características com impacto direto na usabilidade por parte do pesquisador que com isso terá acesso a todas funcionalidades em um mesmo ambiente para o atendimento das suas necessidades.
+	
+	O modelo proposto oferece soluções para as características que mais agregam valor aos seus usuários. Desta forma o investimento em uma interface gráfica se apresenta vital para aspectos de usabilidade e redução na curva de aprendizado de operação do software.
+	
+	Outro critério coberto pelo Biomon é o suporte ao contexto de pesquisa, fornecendo ao pesquisador meios para executar sua análise em um ambiente único sem ter que recorrer a diferentes soluções de software, com isso evitando a troca de contextos em uma mesma análise de dados de campo. Ainda neste mesmo critério o modelo proporciona ao pesquisador a construção de conjuntos de rotinas estatísticas de forma dinâmica com a inserção de novos \textit{scripts} de análise elaborados pelo estatístico sem a necessidade de alteração no software.
+	
+	O critério de extensibilidade tem impacto indireto para a área da pesquisa e proporciona a comunidade de desenvolvimento um ambiente preparado para a criação de novas instâncias de software ou mesmo seu acoplamento em outras soluções de software já existentes. Sua arquitetura aberta de domínio público e organizada em camadas especializadas fomenta sua aplicação em projetos de desenvolvimento para atendimento as mais variadas necessidades da área da análise dados de forma controlada e com um mínimo de esforço.
+	
+		\begin{table}[h]
+         	  \caption{Contribuição do modelo Biomon}
+           \label{tab:contribuição}
+           \centering
+           \begin{minipage}{1.0\textwidth}
+           \resizebox{\textwidth}{!}{
+           \begin{tabular*}{\textwidth}{ llll }
+           	\hline
+		\textbf{Software}			&\textbf{Interface}	&\textbf{Suporte}	&\textbf{Extensibilidade}\\
+           	\hline
+		\textbf{Multiv \& SYNCSA} 	&Linha de comando	&Método estatístico	&Código aberto\\
+		\textbf{Pct.SYNCSA para R}	&Linha de comando	&Método estatístico	&Código aberto\\
+		\textbf{Past}				&Interface gráfica	&Contexto	 de análise	&Código proprietário\\
+		\textbf{PC-ORD}			&Interface gráfica	&Método estatístico	&Código proprietário\\
+		\textbf{CANOCO}			&Interface gráfica	&Método estatístico	&Código proprietário\\
+		\textbf{IBM SPSS}			&Interface gráfica	&Método estatístico	&Código proprietário\\
+             	\hline
+		\textbf{Biomon}			&Interface gráfica	&Contexto de análise	&Código aberto\\
+             	\hline
+           \end{tabular*}}
+	\caption*{Fonte: Elaborada pelo autor}
+           \end{minipage}
+     	\end{table}
+
+	\section{Trabalhos Futuros}
+		Como trabalhos futuros se propõe inicialmente atenção para os ítens apontados pelos pesquisadores como críticos na proposta avaliada. Como já foi discutido anteriormente, a proposta carece de melhorias quanto ao tratamento da interface com o usuário, fornecendo a este mais informações a respeito de sua utilização. Uma melhor distribuição dos objetos de interface e mais informação visual seriam pontos a serem melhorados em futuras versões do Biomon.
+		
+		Um outro aspecto observado na pesquisa de aceitação de software é a relação pesquisador e estatístico que parece não estar clara ou bem definida. Uma solução possível seria a proposta, nos mesmos moldes do Biomon, de uma ferramenta para o estatístico. Desta forma pesquisadores que atuem em ambos papéis possam se beneficiar das mesmas características da proposta de software para execução das análises.
+		
+		Durante os preparativos para as sessões de teste houve a oportunidade de receber dos pesquisadores convidados relatos a respeito de suas dificuldades quando da execução de análises estatísticas. Fatores que não foram cobertos pelo modelo proposto se apresentaram e podem ser atendidos por trabalhos futuros de forma a cobrir um espectro mais amplo do biomonitoramento. Um exemplo é a edição de gráficos, onde sua customização não é possível em determinadas soluções de software ou demasiada complexa em outras. Por isso uma proposta de software nos moldes do Biomon para edição e geração de gráficos com componentes dinâmicos suportado por uma interface gráfica e intuitiva se apresenta como uma área com relativa demanda.
+			
+	\bibliography{bibtex/Dissertacao.bib}
+	
+	\appendix
+	
+		\chapter{Caso de Teste}\label{sec:caso_teste}
+		% Include com o caso de teste
+		\input{Caso_de_Estudo.tex}
+
+		\chapter{Avaliação}\label{sec:avaliacao}
+		% Include com a pesquisa
+		\input{Pesquisa_TAM.tex}
+	
+	
+\end{document}  

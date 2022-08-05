@@ -1,0 +1,67 @@
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2014.6.15)  15 MAY 2015 00:55
+entering extended mode
+ restricted \write18 enabled.
+ file:line:error style messages enabled.
+ %&-line parsing enabled.
+**UNISINOSmonografia.cls
+(./UNISINOSmonografia.cls
+LaTeX2e <2011/06/27>
+Babel <3.9k> and hyphenation patterns for 78 languages loaded.
+
+LaTeX Warning: You have requested package `',
+               but the package provides `UNISINOSmonografia'.
+
+Package: UNISINOSmonografia 2011/06/23 v0.1 Monografias da UNISINOS
+(/usr/local/texlive/2013/texmf-dist/tex/latex/base/report.cls
+Document Class: report 2007/10/19 v1.4h Standard LaTeX document class
+(/usr/local/texlive/2013/texmf-dist/tex/latex/base/size12.clo
+File: size12.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@chapter=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(/usr/local/texlive/2013/texmf-dist/tex/generic/babel/babel.sty
+Package: babel 2014/03/24 3.9k The Babel package
+
+
+/usr/local/texlive/2013/texmf-dist/tex/generic/babel/babel.sty:330: Package bab
+el Error: You haven't specified a language option.
+
+See the babel package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.330 ...ry to proceed from here, type x to quit.}
+                                                  
+? 
+/usr/local/texlive/2013/texmf-dist/tex/generic/babel/babel.sty:330: Emergency s
+top.
+ ...                                              
+                                                  
+l.330 ...ry to proceed from here, type x to quit.}
+                                                  
+You need to specify a language, either as a global option
+or as an optional argument to the \usepackage command;
+You shouldn't try to proceed from here, type x to quit.
+
+ 
+Here is how much of TeX's memory you used:
+ 306 strings out of 493308
+ 3683 string characters out of 6137816
+ 55458 words of memory out of 5000000
+ 3846 multiletter control sequences out of 15000+600000
+ 3938 words of font info for 15 fonts, out of 8000000 for 9000
+ 957 hyphenation exceptions out of 8191
+ 22i,0n,19p,171b,36s stack positions out of 5000i,500n,10000p,200000b,80000s
+/usr/local/texlive/2013/texmf-dist/tex/generic/babel/babel.sty:330:  ==> Fatal 
+error occurred, no output PDF file produced!

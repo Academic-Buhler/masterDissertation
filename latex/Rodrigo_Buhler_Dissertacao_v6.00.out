@@ -1,0 +1,62 @@
+\BOOKMARK [0][-]{chapter.1}{INTRODU\307\303O}{}% 1
+\BOOKMARK [1][-]{section.1.1}{Motiva\347\343o}{chapter.1}% 2
+\BOOKMARK [1][-]{section.1.2}{Defini\347\343o do Problema e Quest\343o de Pesquisa}{chapter.1}% 3
+\BOOKMARK [2][-]{subsection.1.2.1}{Defini\347\343o do Problema}{section.1.2}% 4
+\BOOKMARK [2][-]{subsection.1.2.2}{Quest\343o de Pesquisa}{section.1.2}% 5
+\BOOKMARK [1][-]{section.1.3}{Objetivos}{chapter.1}% 6
+\BOOKMARK [1][-]{section.1.4}{Metodologia}{chapter.1}% 7
+\BOOKMARK [1][-]{section.1.5}{Organiza\347\343o do Texto}{chapter.1}% 8
+\BOOKMARK [0][-]{chapter.2}{FUNDAMENTA\307\303O TE\323RICA}{}% 9
+\BOOKMARK [1][-]{section.2.1}{Biomonitoramento}{chapter.2}% 10
+\BOOKMARK [1][-]{section.2.2}{Coleta e Organiza\347\343o de Dados}{chapter.2}% 11
+\BOOKMARK [2][-]{subsection.2.2.1}{M\351todo do El\341stico}{section.2.2}% 12
+\BOOKMARK [1][-]{section.2.3}{T\351cnica Estat\355stica}{chapter.2}% 13
+\BOOKMARK [2][-]{subsection.2.3.1}{Modelo de Equa\347\365es Estruturais \(SEM\)}{section.2.3}% 14
+\BOOKMARK [1][-]{section.2.4}{Suporte Tecnol\363gico}{chapter.2}% 15
+\BOOKMARK [2][-]{subsection.2.4.1}{Linguagem e Ambiente de Computa\347\343o Estat\355stica R}{section.2.4}% 16
+\BOOKMARK [0][-]{chapter.3}{TRABALHOS RELACIONADOS}{}% 17
+\BOOKMARK [1][-]{section.3.1}{Multiv \046 SYNCSA}{chapter.3}% 18
+\BOOKMARK [1][-]{section.3.2}{Past}{chapter.3}% 19
+\BOOKMARK [1][-]{section.3.3}{PC-ORD}{chapter.3}% 20
+\BOOKMARK [1][-]{section.3.4}{CANOCO}{chapter.3}% 21
+\BOOKMARK [1][-]{section.3.5}{IBM SPSS}{chapter.3}% 22
+\BOOKMARK [1][-]{section.3.6}{Comparativo}{chapter.3}% 23
+\BOOKMARK [0][-]{chapter.4}{Biomon}{}% 24
+\BOOKMARK [1][-]{section.4.1}{Vis\343o geral}{chapter.4}% 25
+\BOOKMARK [1][-]{section.4.2}{Camadas do Biomon}{chapter.4}% 26
+\BOOKMARK [2][-]{subsection.4.2.1}{Camada de Vis\365es}{section.4.2}% 27
+\BOOKMARK [2][-]{subsection.4.2.2}{Camada dos Controladores}{section.4.2}% 28
+\BOOKMARK [2][-]{subsection.4.2.3}{Camada do Modelo}{section.4.2}% 29
+\BOOKMARK [1][-]{section.4.3}{Arquitetura do Biomon}{chapter.4}% 30
+\BOOKMARK [2][-]{subsection.4.3.1}{Vis\343o L\363gica}{section.4.3}% 31
+\BOOKMARK [2][-]{subsection.4.3.2}{Vis\343o de Processos}{section.4.3}% 32
+\BOOKMARK [2][-]{subsection.4.3.3}{Vis\343o do Desenvolvimento}{section.4.3}% 33
+\BOOKMARK [2][-]{subsection.4.3.4}{Vis\343o F\355sica}{section.4.3}% 34
+\BOOKMARK [2][-]{subsection.4.3.5}{Vis\343o +1}{section.4.3}% 35
+\BOOKMARK [1][-]{section.4.4}{Considera\347\365es sobre o cap\355tulo}{chapter.4}% 36
+\BOOKMARK [0][-]{chapter.5}{PROT\323TIPO}{}% 37
+\BOOKMARK [1][-]{section.5.1}{Ambiente de programa\347\343o}{chapter.5}% 38
+\BOOKMARK [2][-]{subsection.5.1.1}{The R Project}{section.5.1}% 39
+\BOOKMARK [1][-]{section.5.2}{Arquitetura do Prot\363tipo}{chapter.5}% 40
+\BOOKMARK [1][-]{section.5.3}{O Estat\355stico}{chapter.5}% 41
+\BOOKMARK [2][-]{subsection.5.3.1}{Arquivo de An\341lise}{section.5.3}% 42
+\BOOKMARK [2][-]{subsection.5.3.2}{Caso de Uso}{section.5.3}% 43
+\BOOKMARK [1][-]{section.5.4}{O Pesquisador}{chapter.5}% 44
+\BOOKMARK [2][-]{subsection.5.4.1}{Matrizes de Dados}{section.5.4}% 45
+\BOOKMARK [2][-]{subsection.5.4.2}{Interface Gr\341fica}{section.5.4}% 46
+\BOOKMARK [2][-]{subsection.5.4.3}{Caso de Uso}{section.5.4}% 47
+\BOOKMARK [1][-]{section.5.5}{Discuss\343o}{chapter.5}% 48
+\BOOKMARK [1][-]{section.5.6}{C\363digo}{chapter.5}% 49
+\BOOKMARK [0][-]{chapter.6}{AVALIA\307\303O}{}% 50
+\BOOKMARK [1][-]{section.6.1}{Metodologia}{chapter.6}% 51
+\BOOKMARK [1][-]{section.6.2}{Caso de Teste}{chapter.6}% 52
+\BOOKMARK [1][-]{section.6.3}{Question\341rio}{chapter.6}% 53
+\BOOKMARK [1][-]{section.6.4}{Facilidade de Uso}{chapter.6}% 54
+\BOOKMARK [1][-]{section.6.5}{Utilidade Percebida}{chapter.6}% 55
+\BOOKMARK [0][-]{chapter.7}{CONSIDERA\307\325ES FINAIS}{}% 56
+\BOOKMARK [1][-]{section.7.1}{Conclus\343o}{chapter.7}% 57
+\BOOKMARK [1][-]{section.7.2}{Contribui\347\365es}{chapter.7}% 58
+\BOOKMARK [1][-]{section.7.3}{Trabalhos Futuros}{chapter.7}% 59
+\BOOKMARK [0][-]{chapter*.41}{Refer\352ncias}{}% 60
+\BOOKMARK [0][-]{appendix.A}{Caso de Teste}{}% 61
+\BOOKMARK [0][-]{appendix.B}{Avalia\347\343o}{}% 62
